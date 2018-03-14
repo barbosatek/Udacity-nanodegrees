@@ -1,0 +1,53 @@
+body {
+	padding: 0% 5% 0% 5%;
+	width: 90%;
+}
+/* Header */
+.logo-wrapper {
+	width: 60%;
+	order: 0;
+}
+.about-wrapper {
+	width: 40%;
+	order: 1;
+	text-align: right;
+	padding-top: 4%;
+}
+.logo {
+	width: 200px;
+	padding: 10px 0 0 0px;
+}
+/* splash img */
+.splash-image-wrapper {
+	padding-top: 10px;
+	border-top-color: #7d97ad;
+	border-top-style: solid;
+	border-top-width: 3px;
+}
+.splash-image {
+	width: 100%;
+}
+/* Portfolio */
+.portfolio {
+	width: 100%;
+}
+.portfolio {
+	display: flex;
+	flex-wrap: wrap;
+}
+.project {
+	width: 30%;
+}
+.project.left {
+	margin-right: 2.5%;
+}
+.project.middle {
+	margin-right: 2.5%;
+	margin-left: 2.5%;
+}
+.project.right {
+	margin-left: 2.5%;
+}
+.project-image {
+	width: 100%;
+}

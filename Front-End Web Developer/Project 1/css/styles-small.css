@@ -1,0 +1,44 @@
+body {
+	width: 100%;
+}
+/* Header */
+.logo-wrapper {
+	width: 100%;
+	order: 0;
+	text-align: center;
+}
+.about-wrapper {
+	width: 100%;
+	order: 1;
+	text-align: center;
+}
+.logo {
+	width: 100px;
+}
+.header-subtitle {
+	font-size: 35px;
+}
+/* splash img */
+.splash-image-wrapper {
+	padding-top: 10px;
+	border-top-color: #7d97ad;
+	border-top-style: solid;
+	border-top-width: 3px;
+}
+.splash-image {
+	width: 100%;
+}
+/* Portfolio */
+.portfolio {
+	width: 100%;
+}
+.project-image {
+	width: 100%;
+	text-align: center;
+}
+.project-title {
+	text-align: center;
+}
+.project-link {
+	text-align: center;
+}

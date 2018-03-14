@@ -1,47 +1,49 @@
 <!DOCTYPE HTML>
-
 <html>
-
-<head>
+  <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="styles.css" />
-	<title>Portfolio</title>
-</head>
-
-<body>
-
-	<header>
-        <div class="logo-wrapper">
-                <img class="logo" src="images/logo.svg" alt="Udcity Logo">
-        </div>
-        <div class="about-wrapper">
-                <h1 class="header-title">Homero Barbosa</h1>
-                <h5 class="header-subtitle">Front-End Engineer</h5>
-        </div>    
+    <link rel="stylesheet" href="css/styles-base.css" />
+    <link rel="stylesheet" href="css/styles-small.css" media="screen and (max-device-width : 650px)" />
+    <link rel="stylesheet" href="css/styles-medium.css" media="screen and (min-device-width : 651px) and (max-device-width : 1200px)" />
+    <link rel="stylesheet" href="css/styles-large.css" media="screen and (min-device-width : 1201px)" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio</title>
+  </head>
+  <body>
+    <header>
+      <div class="logo-wrapper">
+        <img class="logo" src="img/logo.svg" alt="Udcity Logo">
+      </div>
+      <div class="about-wrapper">
+        <h1 class="header-title">Homero Barbosa</h1>
+        <h3 class="header-subtitle">Front-End Engineer</h3>
+      </div>
     </header>
-    
     <section class="splash-image-wrapper">
-            <img src="images/splash.png" alt="Portolio" class="splash-image" />
+      <img src="img/splash.png" alt="Portolio" class="splash-image" />
     </section>
-	
-	<section class="portfolio">
-	<h2>Featured Work</h2>
-		<article class="project">
-                <img class="project-image" src="" alt="" />
-				<h3 class="project-title">Project 1</h2>
-				<p class="project-decription">Description</p>
-        </article>
-        <article class="project">
-                <img class="project-image" src="" alt="" />
-				<h3 class="project-title">Project 2</h2>
-				<p class="project-decription">Description</p>
-        </article>
-        <article class="project">
-                <img class="project-image" src="" alt="" />
-				<h3 class="project-title">Project 3</h2>
-				<p class="project-decription">Description</p>
-        </article>
+    <section class="portfolio-title">
+      <h2>Featured Work</h2>
     </section>
-</body>
-
+    <section class="portfolio">
+      <article class="project left">
+        <img class="project-image" src="img/appify.png" alt="Appify" />
+        <h3 class="project-title">
+        Project 1</h3>
+        <p class="project-link">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </article>
+      <article class="project middle">
+        <img class="project-image" src="img/sunflower.png" alt="Appify" />
+        <h3 class="project-title">
+        Project 2</h3>
+        <p class="project-link">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </article>
+      <article class="project right">
+        <img class="project-image" src="img/bokeh.png" alt="Appify" />
+        <h3 class="project-title">
+        Project 3</h3>
+        <p class="project-link">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. </p>
+      </article>
+    </section>
+  </body>
 </html>
