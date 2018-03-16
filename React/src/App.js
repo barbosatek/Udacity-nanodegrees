@@ -189,7 +189,7 @@ class BookShelf extends React.Component{
               </div>
             </div>
             <div className="open-search">
-              <a onClick={() => this.setState({ showSearchPage: true })}>Add a book</a>
+              <Link to="/search">Add a book</Link>
             </div>
           </div>
     )
@@ -209,13 +209,12 @@ class BooksApp extends React.Component {
 
   render() {
     return (
-      <div className="app">
-        {this.state.showSearchPage ? (
-          <BookSearch/>
-        ) : (
-          <BookShelf/>
-        )}
+      <Router>
+        <div className="app">
+          <Route exact path="/" component={BookShelf} />
+          <Route exact path="/search" component={BookSearch} />
       </div>
+      </Router>
     )
   }
 }
