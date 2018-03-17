@@ -31,10 +31,17 @@ class BookSearch extends React.Component{
 }
 
 class Book extends React.Component{
-  render(){return (
+  
+  render(){
+    const book = this.props.book
+    return (
     <div className="book">
       <div className="book-top">
-        <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: 'url("http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api")' }}></div>
+        <div className="book-cover" style={{
+          width: 128,
+          height: 193,
+          backgroundImage: `url(${book.imageUrl})` }}>
+        </div>
         <div className="book-shelf-changer">
           <select>
             <option value="none" disabled>Move to...</option>
@@ -45,24 +52,26 @@ class Book extends React.Component{
           </select>
         </div>
       </div>
-      <div className="book-title">To Kill a Mockingbird</div>
-      <div className="book-authors">Harper Lee</div>
+      <div className="book-title">{book.title}</div>
+      <div className="book-authors">{book.authors}</div>
     </div>
   )}
 }
 
 class BookShelf extends React.Component{
-  render() {return (
+  
+  render() {
+    const books = this.props.books
+    return (
     <div className="bookshelf">
       <h2 className="bookshelf-title">{this.props.title}</h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
-          <li>
-            <Book/>
+        {books.map((book) => (
+          <li key={book.title}>
+            <Book book={book}/>
           </li>
-          <li>
-          <Book/>
-          </li>
+        ))}
         </ol>
       </div>
     </div>
@@ -70,6 +79,20 @@ class BookShelf extends React.Component{
 }
 
 class BookList extends React.Component{
+  state = {
+    books: [{
+      imageUrl: 'http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api',
+      title: 'To Kill a Mockingbird',
+      authors: 'Harper Lee'
+    }],
+    currentlyReadingBooks: [{
+      imageUrl: 'http://books.google.com/books/content?id=PGR2AwAAQBAJ&printsec=frontcover&img=1&zoom=1&imgtk=AFLRE73-GnPVEyb7MOCxDzOYF1PTQRuf6nCss9LMNOSWBpxBrz8Pm2_mFtWMMg_Y1dx92HT7cUoQBeSWjs3oEztBVhUeDFQX6-tWlWz1-feexS0mlJPjotcwFqAg6hBYDXuK_bkyHD-y&source=gbs_api',
+      title: 'To Kill a Mockingbird',
+      authors: 'Harper Lee'
+    }],
+    wantToReadBooks: [],
+    readBooks: []
+  }
 
   render() {
     return (
@@ -79,9 +102,9 @@ class BookList extends React.Component{
             </div>
             <div className="list-books-content">
               <div>
-                <BookShelf title="Currently Reading"/>
-                <BookShelf title="Want to Read"/>
-                <BookShelf title="Read"/>
+                <BookShelf title="Currently Reading" books={this.state.currentlyReadingBooks}/>
+                <BookShelf title="Want to Read" books={this.state.wantToReadBooks}/>
+                <BookShelf title="Read" books={this.state.readBooks}/>
               </div>
             </div>
             <div className="open-search">
