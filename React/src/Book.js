@@ -1,11 +1,8 @@
 import React from "react";
 class Book extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: ''
-    };
-  }
+  state = {
+    value: ''
+  };
 
   updateBook(event, book) {
     this.props.onMoveBook(book, event.target.value);

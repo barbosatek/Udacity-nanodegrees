@@ -11,7 +11,6 @@ class BooksApp extends React.Component {
     wantToReadBooks: [],
     readBooks: [],
     books: [],
-    query: ""
   }
 
   mapBook(book) {
@@ -19,7 +18,8 @@ class BooksApp extends React.Component {
       imageUrl: book.imageLinks.thumbnail,
       title: book.title,
       authors: '',
-      id: book.id
+      id: book.id,
+      shelf: book.shelf
     };
 
     if(book.authors){
@@ -48,7 +48,10 @@ class BooksApp extends React.Component {
       let mappedBooks = books.map(book => {
         return this.mapBook(book);
       });
-      this.setState({ books: mappedBooks });
+
+      mappedBooks.forEach(book => {
+        this.moveBook(book, book.shelf)
+      });
     });
   }
 

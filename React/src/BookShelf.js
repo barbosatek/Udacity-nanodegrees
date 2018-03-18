@@ -1,13 +1,6 @@
 import React from "react";
 import Book from "./Book";
 class BookShelf extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          books: this.props.books
-        };
-      }
-
   removeBook(book) {
     var index = this.props.books.indexOf(book);
     if (index > -1) {
@@ -23,14 +16,14 @@ class BookShelf extends React.Component {
   }
 
   render() {
-    const { title, shelfId, moveBook } = this.props;
+    const { title, shelfId, moveBook, books } = this.props;
 
     return (
       <div className="bookshelf">
         <h2 className="bookshelf-title">{title}</h2>
         <div className="bookshelf-books">
           <ol className="books-grid">
-            {this.props.books.map(book => (
+            {books.map(book => (
               <li key={book.id}>
                 <Book
                   book={book}
