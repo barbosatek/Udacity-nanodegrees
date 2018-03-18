@@ -70,11 +70,15 @@ class BooksApp extends React.Component {
     }
   }
 
+  closeSearchPage(e, history) {
+    e.preventDefault();
+    history.push("/");
+  }
+
   render() {
     return (
-      <Router>
-        <div className="app">
-          <Route exact path="/" render={() => <div className="list-books">
+      <div className="app">
+          <Route exact path="/" render={({ history }) => <div className="list-books">
             <div className="list-books-title">
               <h1>MyReads</h1>
             </div>
@@ -89,11 +93,11 @@ class BooksApp extends React.Component {
               <Link to="/search">Add a book</Link>
             </div>
           </div>} />
-          <Route exact path="/search" render={() => <div className="search-books">
+          <Route exact path="/search" render={({ history }) => <div className="search-books">
         <div className="search-books-bar">
           <a
             className="close-search"
-            onClick={() => this.setState({ showSearchPage: false })}
+            onClick={e => this.closeSearchPage(e, history)}
           >
             Close
           </a>
@@ -120,7 +124,6 @@ class BooksApp extends React.Component {
         </div>
       </div>} />
       </div>
-      </Router>
     )
   }
 }
