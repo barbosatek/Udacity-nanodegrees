@@ -9,7 +9,7 @@ class Book extends React.Component {
    }
  
   render() {
-    const { book, onMoveBook, shelfId } = this.props;
+    const { book } = this.props;
     return (
       <div className="book">
         <div className="book-top">
