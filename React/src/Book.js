@@ -1,11 +1,12 @@
 import React from "react";
 class Book extends React.Component {
   state = {
-    value: ''
+    value: this.props.book.shelf
   };
 
   updateBook(event, book) {
     this.props.onMoveBook(book, event.target.value);
+    this.setState({value: event.target.value})
    }
  
   render() {
@@ -23,13 +24,13 @@ class Book extends React.Component {
           />
           <div className="book-shelf-changer">
             <select onChange={e => this.updateBook(e,book)} value={this.state.value}>
-              <option value="none" disabled>
+              <option value="" disabled>
                 Move to...
               </option>
-              {this.props.shelfId !== 'currentlyReading' && <option value="currentlyReading">Currently Reading</option>}
-              {this.props.shelfId !== 'wantToRead' && <option value="wantToRead">Want to Read</option>}
-              {this.props.shelfId !== 'read' && <option value="read">Read</option>}
-              {this.props.shelfId !== 'none' && <option value="none">None</option>}
+              <option value="currentlyReading">Currently Reading</option>
+              <option value="wantToRead">Want to Read</option>
+              <option value="read">Read</option>
+              <option value="none">None</option>
             </select>
           </div>
         </div>

@@ -1,22 +1,9 @@
 import React from "react";
 import Book from "./Book";
 class BookShelf extends React.Component {
-  removeBook(book) {
-    var index = this.props.books.indexOf(book);
-    if (index > -1) {
-      this.props.books.splice(index, 1);
-    }
-
-    this.setState({books: this.props.books})
-  }
-
-  moveBook(book, targetShelf) {
-    this.removeBook(book);
-    this.props.moveBook(book, targetShelf)
-  }
-
+  
   render() {
-    const { title, shelfId, books } = this.props;
+    const { title, books } = this.props;
 
     return (
       <div className="bookshelf">
@@ -27,8 +14,7 @@ class BookShelf extends React.Component {
               <li key={book.id}>
                 <Book
                   book={book}
-                  onMoveBook={(b, s) => this.moveBook(b, s)}
-                  shelfId={shelfId}
+                  onMoveBook={(b, s) => this.props.moveBook(b, s)}
                 />
               </li>
             ))}

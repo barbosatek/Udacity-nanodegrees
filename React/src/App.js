@@ -19,8 +19,14 @@ class BooksApp extends React.Component {
       title: book.title,
       authors: '',
       id: book.id,
-      shelf: book.shelf
+      shelf: null
     };
+
+    if(typeof book.shelf !== 'string'){
+      mappedBook.shelf = 'none'
+    }else{
+      mappedBook.shelf = book.shelf
+    }
 
     if(book.authors){
       mappedBook.authors = book.authors.join(", ")
@@ -55,18 +61,60 @@ class BooksApp extends React.Component {
     });
   }
 
+  removeBook(book) {
+    console.log(book.shelf)
+    let shelf = [];
+      if(book.shelf === 'currentlyReading'){
+        shelf = this.state.currentlyReadingBooks;
+      }
+      else if(book.shelf === 'wantToRead'){
+        shelf = this.state.wantToReadBooks;
+      }
+      else if(book.shelf === 'read'){
+        shelf = this.state.readBooks;
+      } else{
+        return;
+      }
+  
+      var index = shelf.indexOf(book);
+      if (index > -1) {
+        shelf.splice(index, 1);
+      }
+  }
+
+  updateBook(book, targetShelf){
+    this.removeBook(book)
+    this.moveBook(book, targetShelf)
+    
+
+    // BooksAPI.update(book, book.shelf).then(boolShelf => {
+    //   BooksAPI.getAll().then(books => {
+    //     let mappedBooks = books.map(book => {
+    //       return this.mapBook(book);
+    //     });
+  
+    //     mappedBooks.forEach(book => {
+    //       this.moveBook(book, book.shelf)
+    //     });
+    //   });
+    // });
+  }
+
   moveBook(book, targetShelf){
     if(targetShelf === 'currentlyReading'){
+      book.shelf = 'currentlyReading'
       this.setState(state => ({
         currentlyReadingBooks : state.currentlyReadingBooks.concat([book])
       }))
     }
     else if(targetShelf === 'wantToRead'){
+      book.shelf = 'wantToRead'
       this.setState(state => ({
         wantToReadBooks : state.wantToReadBooks.concat([book])
       }))
     }
     else if(targetShelf === 'read'){
+      book.shelf = 'read'
       this.setState(state => ({
         readBooks : state.readBooks.concat([book])
       }))
@@ -87,9 +135,9 @@ class BooksApp extends React.Component {
             </div>
             <div className="list-books-content">
               <div>
-                <BookShelf title="Currently Reading" books={this.state.currentlyReadingBooks} shelfId="currentlyReading" moveBook={(b, s) => this.moveBook(b, s)}/>
-                <BookShelf title="Want to Read" books={this.state.wantToReadBooks} shelfId="wantToRead" moveBook={(b, s) => this.moveBook(b, s)}/>
-                <BookShelf title="Read" books={this.state.readBooks} shelfId="read" moveBook={(b, s) => this.moveBook(b, s)}/>
+                <BookShelf title="Currently Reading" books={this.state.currentlyReadingBooks} moveBook={(b, s) => this.updateBook(b, s)}/>
+                <BookShelf title="Want to Read" books={this.state.wantToReadBooks} moveBook={(b, s) => this.updateBook(b, s)}/>
+                <BookShelf title="Read" books={this.state.readBooks} moveBook={(b, s) => this.updateBook(b, s)}/>
               </div>
             </div>
             <div className="open-search">
@@ -118,8 +166,7 @@ class BooksApp extends React.Component {
               <li key={book.id}>
                 <Book
                   book={book}
-                  onMoveBook={(b, s) => this.moveBook(b, s)}
-                  shelfId="search"
+                  onMoveBook={(b, s) => this.updateBook(b, s)}
                 />
               </li>
             ))}
