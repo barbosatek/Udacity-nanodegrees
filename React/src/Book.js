@@ -6,9 +6,9 @@ class Book extends React.Component {
 
   updateBook(event, book) {
     this.props.onMoveBook(book, event.target.value);
-    this.setState({value: event.target.value})
-   }
- 
+    this.setState({ value: event.target.value });
+  }
+
   render() {
     const { book } = this.props;
     return (
@@ -23,7 +23,10 @@ class Book extends React.Component {
             }}
           />
           <div className="book-shelf-changer">
-            <select onChange={e => this.updateBook(e,book)} value={this.state.value}>
+            <select
+              onChange={e => this.updateBook(e, book)}
+              value={this.state.value}
+            >
               <option value="" disabled>
                 Move to...
               </option>
