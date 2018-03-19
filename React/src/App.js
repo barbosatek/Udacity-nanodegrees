@@ -16,7 +16,7 @@ class BooksApp extends React.Component {
 
   mapBook(book) {
     let mappedBook = {
-      imageUrl: book.imageLinks.thumbnail,
+      imageUrl: '',
       title: book.title,
       authors: '',
       id: book.id,
@@ -31,6 +31,10 @@ class BooksApp extends React.Component {
 
     if(book.authors){
       mappedBook.authors = book.authors.join(", ")
+    }
+
+    if(book.imageLinks && book.imageLinks.thumbnail){
+      mappedBook.imageUrl = book.imageLinks.thumbnail
     }
 
     return mappedBook;
