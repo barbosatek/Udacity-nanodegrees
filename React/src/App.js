@@ -83,27 +83,27 @@ class BooksApp extends React.Component {
       mappedBooks.forEach(book => {
         this.moveBook(book, book.shelf);
       });
-
-      this.setState(x => x);
     });
   }
 
   removeBook(book) {
-    let shelf = [];
-    if (book.shelf === "currentlyReading") {
-      shelf = this.state.currentlyReadingBooks;
-    } else if (book.shelf === "wantToRead") {
-      shelf = this.state.wantToReadBooks;
-    } else if (book.shelf === "read") {
-      shelf = this.state.readBooks;
-    } else {
-      return;
-    }
+    this.setState(state => {
+      let shelf = [];
+      if (book.shelf === "currentlyReading") {
+        shelf = state.currentlyReadingBooks;
+      } else if (book.shelf === "wantToRead") {
+        shelf = state.wantToReadBooks;
+      } else if (book.shelf === "read") {
+        shelf = state.readBooks;
+      } else {
+        return;
+      }
 
-    var index = shelf.indexOf(book);
-    if (index > -1) {
-      shelf.splice(index, 1);
-    }
+      var index = shelf.indexOf(book);
+      if (index > -1) {
+        shelf.splice(index, 1);
+      }
+    })
   }
 
   updateBook(book, targetShelf) {
@@ -111,21 +111,22 @@ class BooksApp extends React.Component {
 
     BooksAPI.update(book, targetShelf).then((bookShelf, e) => {
       this.moveBook(book, targetShelf);
-      this.setState(x => x);
     });
   }
 
   moveBook(book, targetShelf) {
-    if (targetShelf === "currentlyReading") {
-      book.shelf = "currentlyReading";
-      this.state.currentlyReadingBooks.push(book);
-    } else if (targetShelf === "wantToRead") {
-      book.shelf = "wantToRead";
-      this.state.wantToReadBooks.push(book);
-    } else if (targetShelf === "read") {
-      book.shelf = "read";
-      this.state.readBooks.push(book);
-    }
+    this.setState(state => {
+      if (targetShelf === "currentlyReading") {
+        book.shelf = "currentlyReading";
+        state.currentlyReadingBooks.push(book);
+      } else if (targetShelf === "wantToRead") {
+        book.shelf = "wantToRead";
+        state.wantToReadBooks.push(book);
+      } else if (targetShelf === "read") {
+        book.shelf = "read";
+        state.readBooks.push(book);
+      }
+    })
   }
 
   closeSearchPage(e, history) {
