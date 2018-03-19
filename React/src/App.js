@@ -52,7 +52,14 @@ class BooksApp extends React.Component {
           return this.mapBook(book);
         });
   
-        // TODO: Set the right state from shelves
+        var allBooks = [];
+        allBooks = allBooks.concat(this.state.currentlyReadingBooks, this.state.wantToReadBooks, this.state.readBooks)
+        books.forEach(b => {
+          var existingBook = allBooks.find(x => x.id === b.id);
+          if(existingBook !== undefined){
+            b.shelf = existingBook.shelf;
+          }
+        });
   
         this.setState({ books });
       });
