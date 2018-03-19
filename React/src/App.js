@@ -45,6 +45,8 @@ class BooksApp extends React.Component {
         return this.mapBook(book);
       });
 
+      // TODO: Set the right state from shelves
+
       this.setState({ books });
     });
   };
@@ -62,7 +64,6 @@ class BooksApp extends React.Component {
   }
 
   removeBook(book) {
-    console.log(book.shelf)
     let shelf = [];
       if(book.shelf === 'currentlyReading'){
         shelf = this.state.currentlyReadingBooks;
@@ -84,20 +85,10 @@ class BooksApp extends React.Component {
 
   updateBook(book, targetShelf){
     this.removeBook(book)
-    this.moveBook(book, targetShelf)
     
-
-    // BooksAPI.update(book, book.shelf).then(boolShelf => {
-    //   BooksAPI.getAll().then(books => {
-    //     let mappedBooks = books.map(book => {
-    //       return this.mapBook(book);
-    //     });
-  
-    //     mappedBooks.forEach(book => {
-    //       this.moveBook(book, book.shelf)
-    //     });
-    //   });
-    // });
+    BooksAPI.update(book, targetShelf).then((bookShelf, e) => {
+      this.moveBook(book, targetShelf)
+    });
   }
 
   moveBook(book, targetShelf){
