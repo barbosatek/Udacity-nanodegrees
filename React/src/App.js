@@ -11,6 +11,7 @@ class BooksApp extends React.Component {
     wantToReadBooks: [],
     readBooks: [],
     books: [],
+    query: ''
   }
 
   mapBook(book) {
@@ -36,19 +37,26 @@ class BooksApp extends React.Component {
   }
 
   updateQuery = query => {
-    BooksAPI.search(query.trim()).then(books => {
-      if (!Array.isArray(books)) {
-        return;
-      }
+    query = query.trim();
+    this.setState({ query });
 
-      books = books.map(book => {
-        return this.mapBook(book);
+    if(query === ''){
+      this.setState({ books: [] });
+    } else{
+      BooksAPI.search(query).then(books => {
+        if (!Array.isArray(books)) {
+          return;
+        }
+  
+        books = books.map(book => {
+          return this.mapBook(book);
+        });
+  
+        // TODO: Set the right state from shelves
+  
+        this.setState({ books });
       });
-
-      // TODO: Set the right state from shelves
-
-      this.setState({ books });
-    });
+    }
   };
 
   componentDidMount() {
@@ -60,6 +68,8 @@ class BooksApp extends React.Component {
       mappedBooks.forEach(book => {
         this.moveBook(book, book.shelf)
       });
+
+      this.setState(x => x)
     });
   }
 
@@ -88,27 +98,22 @@ class BooksApp extends React.Component {
     
     BooksAPI.update(book, targetShelf).then((bookShelf, e) => {
       this.moveBook(book, targetShelf)
+      this.setState(x => x)
     });
   }
 
   moveBook(book, targetShelf){
     if(targetShelf === 'currentlyReading'){
       book.shelf = 'currentlyReading'
-      this.setState(state => ({
-        currentlyReadingBooks : state.currentlyReadingBooks.concat([book])
-      }))
+      this.state.currentlyReadingBooks.push(book);
     }
     else if(targetShelf === 'wantToRead'){
       book.shelf = 'wantToRead'
-      this.setState(state => ({
-        wantToReadBooks : state.wantToReadBooks.concat([book])
-      }))
+      this.state.wantToReadBooks.push(book);
     }
     else if(targetShelf === 'read'){
       book.shelf = 'read'
-      this.setState(state => ({
-        readBooks : state.readBooks.concat([book])
-      }))
+      this.state.readBooks.push(book);
     }
   }
 
@@ -147,6 +152,7 @@ class BooksApp extends React.Component {
             <input
               type="text"
               placeholder="Search by title or author"
+              value={this.state.query}
               onChange={event => this.updateQuery(event.target.value)}
             />
           </div>
