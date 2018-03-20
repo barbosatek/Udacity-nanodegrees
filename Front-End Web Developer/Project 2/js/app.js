@@ -63,6 +63,7 @@ const Game = function(){
 
     function open(card) {
         card.classList.add("open");
+        card.classList.add("show");
     }
 
     function getCardValue(card){
@@ -76,31 +77,37 @@ const Game = function(){
                     return;
                 }
 
+                open(card);
+
                 if(state.isMatching){
                     if(getCardValue(state.matchingCard) === getCardValue(card)){
-                        open(card);
+                        
                         match(card)
-                        open(state.matchingCard);
+                        match(state.matchingCard);
                         state.matchedCards.push(card);
                         state.matchedCards.push(state.matchingCard);
 
-                        if(state.matchingCard.length == cards.length){
+                        if(state.matchedCards.length === cards.length){
                             alert('you won!')
                         }
-                    }else{
-                        unmatch(state.matchingCard)
-                        closeCard(state.matchingCard)
-                        
-                        state.totalMoves++;
-                        document.querySelector('.moves').textContent = state.totalMoves;
-                    }
 
-                    state.isMatching = false;
-                    state.matchingCard = null;
+                        state.isMatching = false;
+                        state.matchingCard = null;
+                    }else{
+                        window.setTimeout(function () {
+                            closeCard(card)
+                            closeCard(state.matchingCard)
+                            
+                            state.totalMoves++;
+                            document.querySelector('.moves').textContent = state.totalMoves;
+
+                            state.isMatching = false;
+                            state.matchingCard = null;
+                        }, 500);
+                    }
                 } else{
                     state.isMatching = true;
                     state.matchingCard = card;
-                    match(card)
                 }
             }, false);
         });
@@ -108,7 +115,7 @@ const Game = function(){
 
     return {
         init: function(){
-            var cards = document.querySelectorAll('li');
+            var cards = document.querySelectorAll('li.card');
             initGame(cards);
             bindClickEvent(cards);
         }
