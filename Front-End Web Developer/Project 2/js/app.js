@@ -1,38 +1,100 @@
-/*
- * Create a list that holds all of your cards
- */
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
-
-// Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+const Game = function(){
+    let state = {
+        cardA: null,
+        cardB: null,
+        isMatching: false,
+        remainingMoves: 3
     }
 
-    return array;
+    // Shuffle function from http://stackoverflow.com/a/2450976
+    function shuffle(array) {
+        var currentIndex = array.length, temporaryValue, randomIndex;
+
+        while (currentIndex !== 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
+
+    function closeCard(card) {
+        card.classList.remove("open");
+        card.classList.remove("show");
+    }
+
+    function unmatch(card) {
+        card.classList.remove("match");
+    }
+
+    function isMatched(card) {
+        return card.classList.contains("match");
+    }
+
+    function isOpened(card) {
+        return card.classList.contains("open");
+    }
+
+    function match(card) {
+        card.classList.add("match");
+    }
+
+    function open(card) {
+        card.classList.add("open");
+    }
+
+    function getCardValue(card){
+        return card.children[0].className.replace('fa ', '')
+    }
+
+    function bindClickEvent(cards){
+        cards.forEach(card => {
+            card.addEventListener("click", (e) => {
+                if(isOpened(card) || isMatched(card)){
+                    return;
+                }
+
+                if(state.isMatching){
+                    if(getCardValue(state.cardA) === getCardValue(card)){
+                        open(card);
+                        match(card)
+                        open(state.cardA);
+                    }else{
+                        unmatch(state.cardA)
+                        closeCard(state.cardA)
+                        state.remainingMoves--;
+                        document.querySelector('.moves').textContent = state.remainingMoves;
+                        if(state.remainingMoves < 0){
+                            alert('Game Over')
+                        }
+                    }
+
+                    state.isMatching = false;
+                    state.cardA = null;
+                } else{
+                    state.isMatching = true;
+                    state.cardA = card;
+                    match(card)
+                }
+            }, false);
+        });
+    }
+
+    return {
+        init: function(){
+            var cards = document.querySelectorAll('li');
+            shuffle(cards);
+            cards.forEach(card => {
+                closeCard(card)
+                unmatch(card)
+            });
+            bindClickEvent(cards);
+        }
+    }
 }
 
-
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
- *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
- *  - if the list already has another card, check to see if the two cards match
- *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
- *    + if the cards do not match, remove the cards from the list and hide the card's symbol (put this functionality in another function that you call from this one)
- *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
- *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
- */
+let game = new Game();
+game.init();
