@@ -1,9 +1,28 @@
 const Game = function(){
-    let state = {
-        cardA: null,
-        cardB: null,
-        isMatching: false,
-        remainingMoves: 3
+    let state;
+
+    function initGame(cards){
+        resetGame(cards);
+        document.querySelector('.restart').addEventListener("click", (e) => {
+            resetGame(cards);
+        }, false);
+    }
+
+    function resetGame(cards){
+        document.querySelector('.moves').textContent = "0";
+
+        shuffle(cards);
+        cards.forEach(card => {
+            closeCard(card)
+            unmatch(card)
+        });
+
+        state = {
+            matchingCard: null,
+            isMatching: false,
+            totalMoves: 0,
+            matchedCards: []
+        }
     }
 
     // Shuffle function from http://stackoverflow.com/a/2450976
@@ -58,25 +77,29 @@ const Game = function(){
                 }
 
                 if(state.isMatching){
-                    if(getCardValue(state.cardA) === getCardValue(card)){
+                    if(getCardValue(state.matchingCard) === getCardValue(card)){
                         open(card);
                         match(card)
-                        open(state.cardA);
-                    }else{
-                        unmatch(state.cardA)
-                        closeCard(state.cardA)
-                        state.remainingMoves--;
-                        document.querySelector('.moves').textContent = state.remainingMoves;
-                        if(state.remainingMoves < 0){
-                            alert('Game Over')
+                        open(state.matchingCard);
+                        state.matchedCards.push(card);
+                        state.matchedCards.push(state.matchingCard);
+
+                        if(state.matchingCard.length == cards.length){
+                            alert('you won!')
                         }
+                    }else{
+                        unmatch(state.matchingCard)
+                        closeCard(state.matchingCard)
+                        
+                        state.totalMoves++;
+                        document.querySelector('.moves').textContent = state.totalMoves;
                     }
 
                     state.isMatching = false;
-                    state.cardA = null;
+                    state.matchingCard = null;
                 } else{
                     state.isMatching = true;
-                    state.cardA = card;
+                    state.matchingCard = card;
                     match(card)
                 }
             }, false);
@@ -86,11 +109,7 @@ const Game = function(){
     return {
         init: function(){
             var cards = document.querySelectorAll('li');
-            shuffle(cards);
-            cards.forEach(card => {
-                closeCard(card)
-                unmatch(card)
-            });
+            initGame(cards);
             bindClickEvent(cards);
         }
     }
