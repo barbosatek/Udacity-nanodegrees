@@ -41,7 +41,6 @@ class BooksApp extends React.Component {
   }
 
   updateQuery = query => {
-    query = query.trim();
     this.setState({ query });
 
     if (query === "") {
@@ -49,6 +48,7 @@ class BooksApp extends React.Component {
     } else {
       BooksAPI.search(query).then(books => {
         if (!Array.isArray(books)) {
+          this.setState({ books: [] });
           return;
         }
 
