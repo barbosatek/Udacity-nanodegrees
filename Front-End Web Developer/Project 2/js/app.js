@@ -41,8 +41,6 @@ const Card = function(cardNode, value, index){
             return cardNode.children[0].className.replace('fa ', '')
         },
         restoreFromState: function(state){
-            let currentValue = this.getValue();
-
             if(state.isMatched){
                 this.match();
             } else{
@@ -84,7 +82,7 @@ const CarDeck = function(cardNodes){
         },
         restoreFromState: function(cardStates){
             for(let i = 0; i < cardStates.length; i++){
-                let card = cards[i];
+                let card = this.cards[i];
                 let state = cardStates[i]
                 card.restoreFromState(state);
 
@@ -105,7 +103,23 @@ const Game = function(){
             console.log('Unable to deserialize state. State will be reset')
         }
 
-        resetGame(cards);
+        if(!storedState){
+            resetGame(cards);
+        } else{
+            document.querySelector('.moves').textContent = storedState.totalMoves;
+
+            cardDeck = new CarDeck(cards);
+            cardDeck.restoreFromState(storedState.cardStates)
+
+            state = {
+                matchingCard: storedState.matchingCardState !== null
+                    ? cardDeck.cards.find(x => x.state.index === storedState.matchingCardState.index)
+                    : null,
+                isMatching: storedState.isMatching,
+                totalMoves: storedState.totalMoves
+            }
+        }
+
         document.querySelector('.restart').addEventListener("click", (e) => {
             resetGame(cards);
         }, false);
@@ -130,7 +144,7 @@ const Game = function(){
 
     function saveState(){
         localStorage.setItem('Game.State', JSON.stringify({
-            matchingCardState: state.matchingCard.state,
+            matchingCardState: state.matchingCard !== null ? state.matchingCard.state : null,
             isMatching: state.isMatching,
             totalMoves: state.totalMoves,
             cardStates: [...cardDeck.cards.map(x => x.state)]
@@ -158,6 +172,7 @@ const Game = function(){
 
                         state.isMatching = false;
                         state.matchingCard = null;
+                        saveState();
                     }else{
                         window.setTimeout(function () {
                             card.closeCard()
