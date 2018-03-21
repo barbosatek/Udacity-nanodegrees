@@ -1,9 +1,9 @@
 // Finish animation
 // Implement Congratulations Popup
-//  Track time
-//  display star rating
+// display star rating
 // implement Star Rating
 // Format / clean up
+// Restoring state after winning doesn't load correctly
 
 // Represents a card state
 const CardState = function(value, index){
@@ -150,8 +150,11 @@ const Game = function(){
         }, false);
 
         let intervalID = window.setInterval(() => {
-            state.elapsedSeconds = state.elapsedSeconds + 1;
-            saveState()
+            if(!state.isGameOver){
+                state.elapsedSeconds = state.elapsedSeconds + 1;
+                document.querySelector('.timer').textContent = 'Elapsed Time:' + state.elapsedSeconds + 's.'
+                saveState()
+            }
         }, 1000);
     }
 
@@ -168,6 +171,7 @@ const Game = function(){
                 : null,
             isMatching: storedState.isMatching,
             elapsedSeconds: storedState.elapsedSeconds,
+            isGameOver: storedState.isGameOver,
             totalMoves: storedState.totalMoves
         }
     }
@@ -188,7 +192,8 @@ const Game = function(){
             matchingCard: null,
             isMatching: false,
             totalMoves: 0,
-            elapsedSeconds: 0
+            elapsedSeconds: 0,
+            isGameOver: false
         }
     }
 
@@ -199,8 +204,14 @@ const Game = function(){
             isMatching: state.isMatching,
             totalMoves: state.totalMoves,
             cardStates: [...cardDeck.cards.map(x => x.state)],
-            elapsedSeconds: state.elapsedSeconds
+            elapsedSeconds: state.elapsedSeconds,
+            isGameOver: state.isGameOver
         }));
+    }
+
+    function increaseMoveCounter(){
+        state.totalMoves++;
+        document.querySelector('.moves').textContent = state.totalMoves;
     }
 
     // Binds the click event on the cards and manages the main click logic and state that determines when 
@@ -222,18 +233,23 @@ const Game = function(){
 
                         if(cardDeck.cards.filter(x => x.isMatched()).length === cardDeck.cards.length){
                             alert('you won!')
+                            state.isGameOver = true;
+                            return;
                         }
 
                         state.isMatching = false;
                         state.matchingCard = null;
+                        increaseMoveCounter();
+                        
                         saveState();
                     }else{
                         window.setTimeout(function () {
                             card.closeCard()
-                            state.matchingCard.closeCard()
+                            if(state.matchingCard !== null){
+                                state.matchingCard.closeCard()
+                            }
                             
-                            state.totalMoves++;
-                            document.querySelector('.moves').textContent = state.totalMoves;
+                            increaseMoveCounter();
 
                             state.isMatching = false;
                             state.matchingCard = null;
