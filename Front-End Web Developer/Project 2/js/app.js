@@ -148,6 +148,11 @@ const Game = function(){
         document.querySelector('.restart').addEventListener("click", (e) => {
             resetGame(cards);
         }, false);
+
+        let intervalID = window.setInterval(() => {
+            state.elapsedSeconds = state.elapsedSeconds + 1;
+            saveState()
+        }, 1000);
     }
 
     // Restores the game given the game state
@@ -162,6 +167,7 @@ const Game = function(){
                 ? cardDeck.cards.find(x => x.state.index === storedState.matchingCardState.index)
                 : null,
             isMatching: storedState.isMatching,
+            elapsedSeconds: storedState.elapsedSeconds,
             totalMoves: storedState.totalMoves
         }
     }
@@ -181,7 +187,8 @@ const Game = function(){
         state = {
             matchingCard: null,
             isMatching: false,
-            totalMoves: 0
+            totalMoves: 0,
+            elapsedSeconds: 0
         }
     }
 
@@ -191,7 +198,8 @@ const Game = function(){
             matchingCardState: state.matchingCard !== null ? state.matchingCard.state : null,
             isMatching: state.isMatching,
             totalMoves: state.totalMoves,
-            cardStates: [...cardDeck.cards.map(x => x.state)]
+            cardStates: [...cardDeck.cards.map(x => x.state)],
+            elapsedSeconds: state.elapsedSeconds
         }));
     }
 
