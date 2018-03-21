@@ -1,3 +1,13 @@
+// Fix shuffle
+// Finish animation
+// Implement Congratulations Popup
+//  Track time
+//  display star rating
+// implement Star Rating
+// Add readme
+// Format / clean up
+// Add comments
+
 const CardState = function(value, index){
     return {
         value: value,
