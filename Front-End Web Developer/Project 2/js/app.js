@@ -1,16 +1,17 @@
-const CardState = function(value){
+const CardState = function(value, index){
     return {
         value: value,
         isMatched: false,
         isOpened: false,
+        index: index
     }
 }
 
-const Card = function(cardNode, value){
+const Card = function(cardNode, value, index){
     cardNode.children[0].className = value;
 
     return {
-        state: new CardState(value),
+        state: new CardState(value, index),
         node: cardNode,
         closeCard: function(){
             cardNode.classList.remove("open");
@@ -38,12 +39,29 @@ const Card = function(cardNode, value){
         },
         getValue: function(){
             return cardNode.children[0].className.replace('fa ', '')
+        },
+        restoreFromState: function(state){
+            let currentValue = this.getValue();
+
+            if(state.isMatched){
+                this.match();
+            } else{
+                this.unmatch();
+            }
+
+            if(state.isOpened){
+                this.open();
+            }else{
+                this.closeCard();
+            }
+
+            cardNode.children[0].className = state.value;
         }
     }
 }
 
 const CarDeck = function(cardNodes){
-
+    
     // Shuffle function from http://stackoverflow.com/a/2450976
     function shuffle(array) {
         var currentIndex = array.length, temporaryValue, randomIndex;
@@ -60,9 +78,17 @@ const CarDeck = function(cardNodes){
     }
 
     return {
-        cards: cardNodes ? [...cardNodes.map((x, i) => new Card(x, x.children[0].className))] : [],
+        cards: cardNodes ? [...cardNodes.map((x, i) => new Card(x, x.children[0].className, i))] : [],
         shuffle: function(){
             shuffle([...this.cards.map(x => x.node)])
+        },
+        restoreFromState: function(cardStates){
+            for(let i = 0; i < cardStates.length; i++){
+                let card = cards[i];
+                let state = cardStates[i]
+                card.restoreFromState(state);
+
+            }
         }
     }
 }
@@ -72,6 +98,13 @@ const Game = function(){
     let cardDeck;
 
     function initGame(cards){
+        let storedState;
+        try{
+            storedState = JSON.parse(localStorage.getItem('Game.State'));
+        } catch(e){
+            console.log('Unable to deserialize state. State will be reset')
+        }
+
         resetGame(cards);
         document.querySelector('.restart').addEventListener("click", (e) => {
             resetGame(cards);
@@ -93,6 +126,15 @@ const Game = function(){
             isMatching: false,
             totalMoves: 0
         }
+    }
+
+    function saveState(){
+        localStorage.setItem('Game.State', JSON.stringify({
+            matchingCardState: state.matchingCard.state,
+            isMatching: state.isMatching,
+            totalMoves: state.totalMoves,
+            cardStates: [...cardDeck.cards.map(x => x.state)]
+        }));
     }
 
     function bindClickEvent(){
@@ -126,11 +168,13 @@ const Game = function(){
 
                             state.isMatching = false;
                             state.matchingCard = null;
+                            saveState();
                         }, 500);
                     }
                 } else{
                     state.isMatching = true;
                     state.matchingCard = card;
+                    saveState();
                 }
             }, false);
         });
