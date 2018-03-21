@@ -12,7 +12,7 @@ To play the game, load the html file in the browser.
 
 To get started, open `js/app.js` and start modifiying the app's functionality
 
-## What You're Getting
+## Project Structure
 ```bash
 ├── README.md - This file.
 ├── index.html - Main html file.
