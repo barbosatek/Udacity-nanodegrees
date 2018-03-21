@@ -3,7 +3,6 @@
 //  Track time
 //  display star rating
 // implement Star Rating
-// Add readme
 // Format / clean up
 
 // Represents a card state
