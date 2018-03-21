@@ -1,4 +1,3 @@
-// Fix shuffle
 // Finish animation
 // Implement Congratulations Popup
 //  Track time
@@ -50,6 +49,10 @@ const Card = function(cardNode, value, index){
         getValue: function(){
             return cardNode.children[0].className.replace('fa ', '')
         },
+        setValue: function(value){
+            cardNode.children[0].className = 'fa ' + value;
+            this.state.value = 'fa ' + value;
+        },
         restoreFromState: function(state){
             if(state.isMatched){
                 this.match();
@@ -69,7 +72,24 @@ const Card = function(cardNode, value, index){
 }
 
 const CarDeck = function(cardNodes){
-    
+    const values = 
+        ["fa-diamond"
+        ,"fa-paper-plane-o"
+        ,"fa-anchor"
+        ,"fa-bolt"
+        ,"fa-cube"
+        ,"fa-anchor"
+        ,"fa-leaf"
+        ,"fa-bicycle"
+        ,"fa-diamond"
+        ,"fa-bomb"
+        ,"fa-leaf"
+        ,"fa-bomb"
+        ,"fa-bolt"
+        ,"fa-bicycle"
+        ,"fa-paper-plane-o"
+        ,"fa-cube"];
+
     // Shuffle function from http://stackoverflow.com/a/2450976
     function shuffle(array) {
         var currentIndex = array.length, temporaryValue, randomIndex;
@@ -88,15 +108,18 @@ const CarDeck = function(cardNodes){
     return {
         cards: cardNodes ? [...cardNodes.map((x, i) => new Card(x, x.children[0].className, i))] : [],
         shuffle: function(){
-            shuffle([...this.cards.map(x => x.node)])
+            let newValues = shuffle(values);
+            for(let i = 0; i < values.length; i++){
+                let card = this.cards[i];
+                let value = newValues[i]
+                card.setValue(value);
+            }
         },
         restoreFromState: function(cardStates){
-            for(let i = 0; i < cardStates.length; i++){
-                let card = this.cards[i];
-                let state = cardStates[i]
-                card.restoreFromState(state);
-
-            }
+            cardStates.forEach(s => {
+                var card = this.cards.find(c => c.state.index === s.index);
+                card.restoreFromState(s);
+            });
         }
     }
 }
@@ -136,6 +159,7 @@ const Game = function(){
     }
 
     function resetGame(cards){
+        localStorage.setItem('Game.State', null);
         document.querySelector('.moves').textContent = "0";
         cardDeck = new CarDeck(cards);
         cardDeck.shuffle();
