@@ -143,7 +143,7 @@ const Game = function(){
         if(!storedState){
             resetGame(cards);
         } else{
-            restoreGame(storedState);
+            restoreGame(storedState, cards);
         }
 
         document.querySelector('.restart').addEventListener("click", (e) => {
@@ -152,7 +152,7 @@ const Game = function(){
     }
 
     // Restores the game given the game state
-    function restoreGame(storedState){
+    function restoreGame(storedState, cards){
         document.querySelector('.moves').textContent = storedState.totalMoves;
 
         cardDeck = new CarDeck(cards);
