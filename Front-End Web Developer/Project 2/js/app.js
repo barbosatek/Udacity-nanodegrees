@@ -1,29 +1,48 @@
-const Game = function(){
-    let state;
-
-    function initGame(cards){
-        resetGame(cards);
-        document.querySelector('.restart').addEventListener("click", (e) => {
-            resetGame(cards);
-        }, false);
+const CardState = function(value){
+    return {
+        value: value,
+        isMatched: false,
+        isOpened: false,
     }
+}
 
-    function resetGame(cards){
-        document.querySelector('.moves').textContent = "0";
+const Card = function(cardNode, value){
+    cardNode.children[0].className = value;
 
-        shuffle(cards);
-        cards.forEach(card => {
-            closeCard(card)
-            unmatch(card)
-        });
-
-        state = {
-            matchingCard: null,
-            isMatching: false,
-            totalMoves: 0,
-            matchedCards: []
+    return {
+        state: new CardState(value),
+        node: cardNode,
+        closeCard: function(){
+            cardNode.classList.remove("open");
+            cardNode.classList.remove("show");
+            this.state.isOpened = false;
+        },
+        open: function(){
+            cardNode.classList.add("open");
+            cardNode.classList.add("show");
+            this.state.isOpened = true;
+        },
+        match: function(){
+            cardNode.classList.add("match");
+            this.state.isMatched = true;
+        },
+        unmatch: function(){
+            cardNode.classList.remove("match");
+            this.state.isMatched = false;
+        },
+        isMatched: function(){
+            return cardNode.classList.contains("match");
+        },
+        isOpened: function(){
+            return cardNode.classList.contains("open");
+        },
+        getValue: function(){
+            return cardNode.children[0].className.replace('fa ', '')
         }
     }
+}
+
+const CarDeck = function(cardNodes){
 
     // Shuffle function from http://stackoverflow.com/a/2450976
     function shuffle(array) {
@@ -40,54 +59,58 @@ const Game = function(){
         return array;
     }
 
-    function closeCard(card) {
-        card.classList.remove("open");
-        card.classList.remove("show");
+    return {
+        cards: cardNodes ? [...cardNodes.map((x, i) => new Card(x, x.children[0].className))] : [],
+        shuffle: function(){
+            shuffle([...this.cards.map(x => x.node)])
+        }
+    }
+}
+
+const Game = function(){
+    let state;
+    let cardDeck;
+
+    function initGame(cards){
+        resetGame(cards);
+        document.querySelector('.restart').addEventListener("click", (e) => {
+            resetGame(cards);
+        }, false);
     }
 
-    function unmatch(card) {
-        card.classList.remove("match");
+    function resetGame(cards){
+        document.querySelector('.moves').textContent = "0";
+        cardDeck = new CarDeck(cards);
+        cardDeck.shuffle();
+
+        cardDeck.cards.forEach(card => {
+            card.closeCard()
+            card.unmatch()
+        });
+
+        state = {
+            matchingCard: null,
+            isMatching: false,
+            totalMoves: 0
+        }
     }
 
-    function isMatched(card) {
-        return card.classList.contains("match");
-    }
-
-    function isOpened(card) {
-        return card.classList.contains("open");
-    }
-
-    function match(card) {
-        card.classList.add("match");
-    }
-
-    function open(card) {
-        card.classList.add("open");
-        card.classList.add("show");
-    }
-
-    function getCardValue(card){
-        return card.children[0].className.replace('fa ', '')
-    }
-
-    function bindClickEvent(cards){
-        cards.forEach(card => {
-            card.addEventListener("click", (e) => {
-                if(isOpened(card) || isMatched(card)){
+    function bindClickEvent(){
+        cardDeck.cards.forEach(card => {
+            card.node.addEventListener("click", (e) => {
+                if(card.isOpened() || card.isMatched()){
                     return;
                 }
 
-                open(card);
+                card.open();
 
                 if(state.isMatching){
-                    if(getCardValue(state.matchingCard) === getCardValue(card)){
+                    if(state.matchingCard.getValue() === card.getValue()){
                         
-                        match(card)
-                        match(state.matchingCard);
-                        state.matchedCards.push(card);
-                        state.matchedCards.push(state.matchingCard);
+                        card.match()
+                        state.matchingCard.match();
 
-                        if(state.matchedCards.length === cards.length){
+                        if(cardDeck.cards.filter(x => x.isMatched()).length === cardDeck.cards.length){
                             alert('you won!')
                         }
 
@@ -95,8 +118,8 @@ const Game = function(){
                         state.matchingCard = null;
                     }else{
                         window.setTimeout(function () {
-                            closeCard(card)
-                            closeCard(state.matchingCard)
+                            card.closeCard()
+                            state.matchingCard.closeCard()
                             
                             state.totalMoves++;
                             document.querySelector('.moves').textContent = state.totalMoves;
@@ -115,9 +138,9 @@ const Game = function(){
 
     return {
         init: function(){
-            var cards = document.querySelectorAll('li.card');
+            var cards = [...document.querySelectorAll('li.card')];
             initGame(cards);
-            bindClickEvent(cards);
+            bindClickEvent();
         }
     }
 }
