@@ -5,8 +5,8 @@
 // implement Star Rating
 // Add readme
 // Format / clean up
-// Add comments
 
+// Represents a card state
 const CardState = function(value, index){
     return {
         value: value,
@@ -16,6 +16,7 @@ const CardState = function(value, index){
     }
 }
 
+// Encapsulates the Card object, its interaction with the DOM and state
 const Card = function(cardNode, value, index){
     cardNode.children[0].className = value;
 
@@ -71,6 +72,7 @@ const Card = function(cardNode, value, index){
     }
 }
 
+// Encapsulates the CardDeck object and its functionality
 const CarDeck = function(cardNodes){
     const values = 
         ["fa-diamond"
@@ -124,10 +126,12 @@ const CarDeck = function(cardNodes){
     }
 }
 
+// Encapsulates the Game object, its interactions with the DOM, its state and events.
 const Game = function(){
     let state;
     let cardDeck;
 
+    // Initializes the game given an array of nodes
     function initGame(cards){
         let storedState;
         try{
@@ -139,18 +143,7 @@ const Game = function(){
         if(!storedState){
             resetGame(cards);
         } else{
-            document.querySelector('.moves').textContent = storedState.totalMoves;
-
-            cardDeck = new CarDeck(cards);
-            cardDeck.restoreFromState(storedState.cardStates)
-
-            state = {
-                matchingCard: storedState.matchingCardState !== null
-                    ? cardDeck.cards.find(x => x.state.index === storedState.matchingCardState.index)
-                    : null,
-                isMatching: storedState.isMatching,
-                totalMoves: storedState.totalMoves
-            }
+            restoreGame(storedState);
         }
 
         document.querySelector('.restart').addEventListener("click", (e) => {
@@ -158,6 +151,23 @@ const Game = function(){
         }, false);
     }
 
+    // Restores the game given the game state
+    function restoreGame(storedState){
+        document.querySelector('.moves').textContent = storedState.totalMoves;
+
+        cardDeck = new CarDeck(cards);
+        cardDeck.restoreFromState(storedState.cardStates)
+
+        state = {
+            matchingCard: storedState.matchingCardState !== null
+                ? cardDeck.cards.find(x => x.state.index === storedState.matchingCardState.index)
+                : null,
+            isMatching: storedState.isMatching,
+            totalMoves: storedState.totalMoves
+        }
+    }
+
+    // Resetds the game to its initial value, shuffles the cards and clears the local storage
     function resetGame(cards){
         localStorage.setItem('Game.State', null);
         document.querySelector('.moves').textContent = "0";
@@ -176,6 +186,7 @@ const Game = function(){
         }
     }
 
+    // Saves the current game state
     function saveState(){
         localStorage.setItem('Game.State', JSON.stringify({
             matchingCardState: state.matchingCard !== null ? state.matchingCard.state : null,
@@ -185,6 +196,8 @@ const Game = function(){
         }));
     }
 
+    // Binds the click event on the cards and manages the main click logic and state that determines when 
+    // the game was won
     function bindClickEvent(){
         cardDeck.cards.forEach(card => {
             card.node.addEventListener("click", (e) => {
