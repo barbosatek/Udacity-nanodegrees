@@ -19,6 +19,10 @@ To get started, open `js/app.js` and start modifiying the app's functionality
 ├── css
 │   └── app.css # CSS styles file.
 ├── js
-│   └── app.js # Javascript code that implements the game logic.
+│	├── app.js # Instatiates the game.
+│	├── card.js # Encapsulates the card logic.
+│	├── cardDeck.js # Encapsulates the card deck logic.
+│	├── cardState.js # Encapsulates the card state.
+│   └── game.js # Encapsulates the game logic.
 └── img
     └── geometry2.png # Background image.
