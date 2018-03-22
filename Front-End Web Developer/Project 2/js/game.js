@@ -1,7 +1,6 @@
 // Finish animation
 // Implement Congratulations Popup
 // Format / clean up
-// Restoring state after winning doesn't load correctly
 
 
 // Encapsulates the Game object, its interactions with the DOM, its state and events.
@@ -170,6 +169,7 @@ const Game = function(){
                         if(cardDeck.cards.filter(x => x.isMatched()).length === cardDeck.cards.length){
                             alert('you won!')
                             state.isGameOver = true;
+                            saveState(state, cardDeck);
                             return;
                         }
 
