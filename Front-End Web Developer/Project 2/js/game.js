@@ -1,7 +1,14 @@
+// Finish animation
+// Implement Congratulations Popup
+// Format / clean up
+// Restoring state after winning doesn't load correctly
+
+
 // Encapsulates the Game object, its interactions with the DOM, its state and events.
 const Game = function(){
     let state;
     let cardDeck;
+    let isClosingCard = false;
 
     // Initializes the game given an array of nodes
     function initGame(){
@@ -148,7 +155,7 @@ const Game = function(){
     function bindClickEvent(){
         cardDeck.cards.forEach(card => {
             card.node.addEventListener("click", (e) => {
-                if(card.isOpened() || card.isMatched()){
+                if(isClosingCard || card.isOpened() || card.isMatched()){
                     return;
                 }
 
@@ -172,6 +179,7 @@ const Game = function(){
                         
                         saveState(state, cardDeck);
                     }else{
+                        isClosingCard = true;
                         window.setTimeout(function () {
                             card.closeCard()
                             if(state.matchingCard !== null){
@@ -183,6 +191,7 @@ const Game = function(){
                             state.isMatching = false;
                             state.matchingCard = null;
                             saveState();
+                            isClosingCard = false;
                         }, 500);
                     }
                 } else{
