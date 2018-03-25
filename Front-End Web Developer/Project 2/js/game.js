@@ -1,7 +1,5 @@
 // Finish animation
-// Implement Congratulations Popup
 // Format / clean up
-
 
 // Encapsulates the Game object, its interactions with the DOM, its state and events.
 const Game = function(){
@@ -28,11 +26,45 @@ const Game = function(){
             resetGame();
         }, false);
 
+        document.querySelector('.play-again').addEventListener("click", (e) => {
+            resetGame();
+        }, false);
+
         let intervalID = window.setInterval((state, cardDeck) => {
             handleTimeIntervar()
         }, 1000, state, cardDeck);
 
         handleTimeIntervar()
+        updateScreenMode(true);
+    }
+
+    // Updates game deck or congratulations modal depending on the game state.
+    function updateScreenMode(scrollTop){
+        let modalNode = document.querySelector('.congrats-modal');
+        let gameNode = document.querySelector('.game');
+        let modalTextNode = document.querySelector('.congrats-body').children[0];
+
+        if(!state.isGameOver){
+            modalNode.style.visibility = 'hidden';
+            modalNode.style.display = 'none';
+
+            gameNode.style.visibility = 'visible';
+            gameNode.style.display = 'flex';
+        } else{
+            modalNode.style.visibility = 'visible';
+            modalNode.style.display = 'flex';
+            
+            gameNode.style.visibility = 'hidden';
+            gameNode.style.display = 'none';
+
+            modalTextNode.textContent = 'With ' + state.totalMoves + ' Moves and ' + calculateRemainingStars() + ' stars.';
+        }
+
+        if(scrollTop){
+            window.setTimeout(() => {
+                window.scrollTo(0, 0)
+            }, 300);
+        }
     }
 
     // Handles timier and displaying stars
@@ -41,24 +73,32 @@ const Game = function(){
             state.elapsedSeconds = state.elapsedSeconds + 1;
             document.querySelector('.timer').textContent = 'Elapsed Time:' + state.elapsedSeconds + 's.';
 
-            if(state.elapsedSeconds > 0 && state.elapsedSeconds < 20){
-                displayStars(3);
-            }
-
-            if(state.elapsedSeconds >= 20 && state.elapsedSeconds < 40){
-                displayStars(2);
-            }
-
-            if(state.elapsedSeconds >= 40 && state.elapsedSeconds < 60){
-                displayStars(1);
-            }
-
-            if(state.elapsedSeconds > 60){
-                displayStars(0);
-            }
+            let remainingStars = calculateRemainingStars();
+            displayStars(remainingStars);
 
             saveState();
         }
+    }
+
+    // Returns the current stars given the elapsed time
+    function calculateRemainingStars(){
+        if(state.elapsedSeconds > 0 && state.elapsedSeconds < 20){
+            return 3;
+        }
+
+        if(state.elapsedSeconds >= 20 && state.elapsedSeconds < 40){
+            return 2;
+        }
+
+        if(state.elapsedSeconds >= 40 && state.elapsedSeconds < 60){
+            return 1;
+        }
+
+        if(state.elapsedSeconds > 60){
+            return 0;
+        }
+
+        throw 'Unable to calculate remaining stars';
     }
 
     // Displays star score in the DOM 
@@ -104,7 +144,7 @@ const Game = function(){
         }
     }
 
-    // Resetds the game to its initial value, shuffles the cards and clears the local storage
+    // Resets the game to its initial value, shuffles the cards and clears the local storage
     function resetGame(){
         localStorage.setItem('Game.State', null);
         document.querySelector('.moves').textContent = "0";
@@ -129,6 +169,8 @@ const Game = function(){
             elapsedSeconds: 0,
             isGameOver: false
         }
+
+        updateScreenMode(true)
     }
 
     // Saves the current game state
@@ -167,17 +209,16 @@ const Game = function(){
                         state.matchingCard.match();
 
                         if(cardDeck.cards.filter(x => x.isMatched()).length === cardDeck.cards.length){
-                            alert('you won!')
                             state.isGameOver = true;
-                            saveState(state, cardDeck);
+                            saveState();
+                            updateScreenMode(true);
                             return;
                         }
 
                         state.isMatching = false;
                         state.matchingCard = null;
                         increaseMoveCounter();
-                        
-                        saveState(state, cardDeck);
+                        saveState();
                     }else{
                         isClosingCard = true;
                         window.setTimeout(function () {
