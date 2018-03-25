@@ -1,6 +1,3 @@
-// Finish animation
-// Format / clean up
-
 // Encapsulates the Game object, its interactions with the DOM, its state and events.
 const Game = function() {
     let state;
