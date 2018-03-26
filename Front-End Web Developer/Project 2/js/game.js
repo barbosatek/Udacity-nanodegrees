@@ -69,32 +69,25 @@ const Game = function() {
      if (!state.isGameOver) {
       state.elapsedSeconds = state.elapsedSeconds + 1;
       document.querySelector('.timer').textContent = 'Elapsed Time:' + state.elapsedSeconds + 's.';
-   
-      let remainingStars = calculateRemainingStars();
-      displayStars(remainingStars);
-   
+
       saveState();
      }
     }
    
     // Returns the current stars given the elapsed time
     function calculateRemainingStars() {
-     if (state.elapsedSeconds > 0 && state.elapsedSeconds < 20) {
+     if (state.totalMoves >= 0 && state.totalMoves < 15) {
       return 3;
      }
    
-     if (state.elapsedSeconds >= 20 && state.elapsedSeconds < 40) {
+     if (state.totalMoves >= 15 && state.totalMoves < 25) {
       return 2;
      }
    
-     if (state.elapsedSeconds >= 40 && state.elapsedSeconds < 60) {
+     if (state.totalMoves >= 25) {
       return 1;
      }
-   
-     if (state.elapsedSeconds > 60) {
-      return 0;
-     }
-   
+     
      throw 'Unable to calculate remaining stars';
     }
    
@@ -178,6 +171,9 @@ const Game = function() {
       elapsedSeconds: state.elapsedSeconds,
       isGameOver: state.isGameOver
      }));
+
+     let remainingStars = calculateRemainingStars();
+     displayStars(remainingStars);
     }
    
     // Increases the move counter and displays it
