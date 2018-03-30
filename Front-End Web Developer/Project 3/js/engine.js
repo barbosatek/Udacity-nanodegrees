@@ -13,25 +13,41 @@
  * writing app.js a little simpler to work with.
  */
 
-var Engine = (function(global) {
-    /* Predefine the variables we'll be using within this scope,
-     * create the canvas element, grab the 2D context for that canvas
-     * set the canvas elements height/width and add it to the DOM.
-     */
-    var doc = global.document,
-        win = global.window,
-        canvas = doc.createElement('canvas'),
-        ctx = canvas.getContext('2d'),
-        lastTime;
+ class Engine{
+    constructor(doc, win, mainPlayer, enemies) {
+        /* Predefine the variables we'll be using within this scope,
+        * create the canvas element, grab the 2D context for that canvas
+        * set the canvas elements height/width and add it to the DOM.
+        */
+       
+        this.canvas = doc.createElement('canvas'),
+        this.ctx = this.canvas.getContext('2d'),
+        this.player = mainPlayer,
+        this.win = win,
+        this.allEnemies = enemies,
+        this.lastTime;
 
-    canvas.width = 505;
-    canvas.height = 606;
-    doc.body.appendChild(canvas);
+        this.canvas.width = 505;
+        this.canvas.height = 606;
+        doc.body.appendChild(this.canvas);
+
+        Resources.load([
+            'images/stone-block.png',
+            'images/water-block.png',
+            'images/grass-block.png',
+            'images/enemy-bug.png',
+            'images/char-boy.png'
+        ]);
+
+        Resources.onReady(() => {
+            this.init()
+        });
+    }
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
      */
-    function main() {
+    main() {
         /* Get our time delta information which is required if your game
          * requires smooth animation. Because everyone's computer processes
          * instructions at different speeds we need a constant value that
@@ -39,33 +55,35 @@ var Engine = (function(global) {
          * computer is) - hurray time!
          */
         var now = Date.now(),
-            dt = (now - lastTime) / 1000.0;
+            dt = (now - this.lastTime) / 1000.0;
 
         /* Call our update/render functions, pass along the time delta to
          * our update function since it may be used for smooth animation.
          */
-        update(dt);
-        render();
+        this.update(dt);
+        this.render();
 
         /* Set our lastTime variable which is used to determine the time delta
          * for the next time this function is called.
          */
-        lastTime = now;
+        this.lastTime = now;
 
         /* Use the browser's requestAnimationFrame function to call this
          * function again as soon as the browser is able to draw another frame.
          */
-        win.requestAnimationFrame(main);
+        this.win.requestAnimationFrame(() => {
+            this.main();
+        });
     }
 
     /* This function does some initial setup that should only occur once,
      * particularly setting the lastTime variable that is required for the
      * game loop.
      */
-    function init() {
-        reset();
-        lastTime = Date.now();
-        main();
+    init() {
+        this.reset();
+        this.lastTime = Date.now();
+        this.main();
     }
 
     /* This function is called by main (our game loop) and itself calls all
@@ -77,8 +95,8 @@ var Engine = (function(global) {
      * functionality this way (you could just implement collision detection
      * on the entities themselves within your app.js file).
      */
-    function update(dt) {
-        updateEntities(dt);
+    update(dt) {
+        this.updateEntities(dt);
         // checkCollisions();
     }
 
@@ -89,11 +107,11 @@ var Engine = (function(global) {
      * the data/properties related to the object. Do your drawing in your
      * render methods.
      */
-    function updateEntities(dt) {
-        allEnemies.forEach(function(enemy) {
+    updateEntities(dt) {
+        this.allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        player.update();
+        this.player.update();
     }
 
     /* This function initially draws the "game level", it will then call
@@ -102,7 +120,7 @@ var Engine = (function(global) {
      * they are flipbooks creating the illusion of animation but in reality
      * they are just drawing the entire screen over and over.
      */
-    function render() {
+    render() {
         /* This array holds the relative URL to the image used
          * for that particular row of the game level.
          */
@@ -119,7 +137,7 @@ var Engine = (function(global) {
             row, col;
         
         // Before drawing, clear existing canvas
-        ctx.clearRect(0,0,canvas.width,canvas.height)
+        this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height)
 
         /* Loop through the number of rows and columns we've defined above
          * and, using the rowImages array, draw the correct image for that
@@ -134,33 +152,34 @@ var Engine = (function(global) {
                  * so that we get the benefits of caching these images, since
                  * we're using them over and over.
                  */
-                ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+                this.ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
             }
         }
 
-        renderEntities();
+        this.renderEntities();
     }
 
     /* This function is called by the render function and is called on each game
      * tick. Its purpose is to then call the render functions you have defined
      * on your enemy and player entities within app.js
      */
-    function renderEntities() {
+    renderEntities() {
         /* Loop through all of the objects within the allEnemies array and call
          * the render function you have defined.
          */
-        allEnemies.forEach(function(enemy) {
-            enemy.render();
+        let innerThis = this;
+        this.allEnemies.forEach(function(enemy) {
+            enemy.render(innerThis.ctx);
         });
 
-        player.render();
+        this.player.render(innerThis.ctx);
     }
 
     /* This function does nothing but it could have been a good place to
      * handle game reset states - maybe a new game menu or a game over screen
      * those sorts of things. It's only called once by the init() method.
      */
-    function reset() {
+    reset() {
         // noop
     }
 
@@ -168,18 +187,4 @@ var Engine = (function(global) {
      * draw our game level. Then set init as the callback method, so that when
      * all of these images are properly loaded our game will start.
      */
-    Resources.load([
-        'images/stone-block.png',
-        'images/water-block.png',
-        'images/grass-block.png',
-        'images/enemy-bug.png',
-        'images/char-boy.png'
-    ]);
-    Resources.onReady(init);
-
-    /* Assign the canvas' context object to the global variable (the window
-     * object when run in a browser) so that developers can use it more easily
-     * from within their app.js files.
-     */
-    global.ctx = ctx;
-})(this);
+ }
