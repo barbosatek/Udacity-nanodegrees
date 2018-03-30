@@ -108,10 +108,12 @@
      * render methods.
      */
     updateEntities(dt) {
+        let innerThis = this;
+
         this.allEnemies.forEach(function(enemy) {
-            enemy.update(dt);
+            enemy.update(dt, innerThis.ctx);
         });
-        this.player.update();
+        this.player.update(dt, innerThis.ctx);
     }
 
     /* This function initially draws the "game level", it will then call
