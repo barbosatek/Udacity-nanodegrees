@@ -3,7 +3,8 @@ class Entity {
      this.sprite = sprite;
      this.x = x;
      this.y = y;
-     this.tileSize = 100;
+     this.horizontalTileSize = 83;
+     this.verticalTileSize = 101;
     }
    
     // Update the enemy's position, required method for game
@@ -35,16 +36,16 @@ class Entity {
     handleInput(keyCode) {
      switch (keyCode) {
       case 'left':
-       this.x = this.x - this.tileSize;
+       this.x = this.x - this.verticalTileSize;
        break;
       case 'up':
-       this.y = this.y - this.tileSize;
+       this.y = this.y - this.horizontalTileSize;
        break;
       case 'right':
-       this.x = this.x + this.tileSize;
+       this.x = this.x + this.verticalTileSize;
        break;
       case 'down':
-       this.y = this.y + this.tileSize;
+       this.y = this.y + this.horizontalTileSize;
        break;
       default:
        console.log('Invalid move');
