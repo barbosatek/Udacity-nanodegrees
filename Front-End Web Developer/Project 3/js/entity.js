@@ -1,10 +1,11 @@
 class Entity {
-    constructor(sprite, x, y, width, height) {
+    constructor(sprite, x, y, gameSettings) {
      this.sprite = sprite;
      this.x = x;
      this.y = y;
-     this.width = width;
-     this.height = height;
+     this.gameSettings = gameSettings;
+     //this.width = gameSettings.spriteWidth;
+     //this.height = gameSettings.spriteHeight;
     }
    
     // Update the enemy's position, required method for game
@@ -23,6 +24,18 @@ class Entity {
 
     // Determines weather or not entity can move to the desired location.
     canMove(x, y){
+      if(x < 0 || y < 0){
+        return false;
+      }
+
+      let border = this.gameSettings.spriteHeight * this.gameSettings.numRows;
+      console.log('Total Height: ' + border)
+      console.log('Current Position(X:' + x + ', y:' + y + ')')
+      
+      if(y + this.gameSettings.spriteHeight > border){
+        return false;
+      }
+
       return true;
     }
    }
