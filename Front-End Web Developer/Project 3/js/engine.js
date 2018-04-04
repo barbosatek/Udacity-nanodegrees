@@ -14,7 +14,7 @@
  */
 
 class Engine {
-    constructor(doc, win, mainPlayer, enemies) {
+    constructor(doc, win, mainPlayer, enemies, gameSettings) {
      /* Predefine the variables we'll be using within this scope,
       * create the canvas element, grab the 2D context for that canvas
       * set the canvas elements height/width and add it to the DOM.
@@ -25,6 +25,7 @@ class Engine {
       this.player = mainPlayer,
       this.win = win,
       this.allEnemies = enemies,
+      this.gameSettings = gameSettings,
       this.lastTime;
    
      this.canvas.width = 505;
@@ -154,7 +155,7 @@ class Engine {
         * so that we get the benefits of caching these images, since
         * we're using them over and over.
         */
-       this.ctx.drawImage(Resources.get(rowImages[row]), col * 101, row * 83);
+       this.ctx.drawImage(Resources.get(rowImages[row]), col * this.gameSettings.spriteHeight, row * this.gameSettings.spriteWidth);
       }
      }
    
