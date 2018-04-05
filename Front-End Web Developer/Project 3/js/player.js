@@ -1,6 +1,6 @@
 class Player extends Entity {
-    constructor(x, y, gameSettings, width, height) {
-     super('images/char-boy.png', x, y, gameSettings, width, height);
+    constructor(x, y, width, height) {
+     super('images/char-boy.png', x, y, width, height);
     }
 
     // Determines weather or not entity can move to the desired location.

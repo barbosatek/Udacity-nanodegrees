@@ -1,5 +1,5 @@
 class Entity {
-    constructor(spritePath, x, y, gameSettings, width, height) {
+    constructor(spritePath, x, y, width, height) {
      this.spritePath = spritePath;
      this.sprite = {
          path: spritePath,

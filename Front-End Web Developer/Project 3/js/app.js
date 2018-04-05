@@ -23,8 +23,8 @@ const gameSettings = {
 }
 
 this.allEnemies = [];
-this.allEnemies.push(new Enemy(0, 0, gameSettings, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight));
-this.player = new Player(gameSettings.backgroundContext.height * 3, gameSettings.backgroundContext.width * 3, gameSettings, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight);
+this.allEnemies.push(new Enemy(0, 0, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight));
+this.player = new Player(gameSettings.backgroundContext.height * 3, gameSettings.backgroundContext.width * 3, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight);
 this.Engine = new Engine(document, window, player, allEnemies, gameSettings, gameSettings);
 
 // This listens for key presses and sends the keys to your
