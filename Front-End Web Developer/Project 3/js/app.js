@@ -13,7 +13,11 @@ const gameSettings = {
     'images/grass-block.png' // Row 2 of 2 of grass
    ],
    numRows: 6,
-   numCols: 5
+   numCols: 5,
+   player: {
+    spriteWidth: 101,
+    spriteHeight: 201
+   }
 }
 
 this.allEnemies = [];

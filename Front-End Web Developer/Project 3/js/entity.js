@@ -14,28 +14,11 @@ class Entity {
      // You should multiply any movement by the dt parameter
      // which will ensure the game runs at the same speed for
      // all computers.
-     ctx.drawImage(Resources.get(this.sprite), this.x, this.y)
+     ctx.drawImage(Resources.get(this.sprite), this.x, this.y, this.gameSettings.player.spriteWidth, this.gameSettings.player.spriteHeight)
     }
    
     // Draw the enemy on the screen, required method for game
     render(ctx) {
-     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-    }
-
-    // Determines weather or not entity can move to the desired location.
-    canMove(x, y){
-      if(x < 0 || y < 0){
-        return false;
-      }
-
-      let border = this.gameSettings.spriteHeight * this.gameSettings.numRows;
-      console.log('Total Height: ' + border)
-      console.log('Current Position(X:' + x + ', y:' + y + ')')
-      
-      if(y + this.gameSettings.spriteHeight > border){
-        return false;
-      }
-
-      return true;
+     ctx.drawImage(Resources.get(this.sprite), this.x, this.y, this.gameSettings.player.spriteWidth, this.gameSettings.player.spriteHeight);
     }
    }
