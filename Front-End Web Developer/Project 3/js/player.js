@@ -10,12 +10,12 @@ class Player extends Entity {
         shouldMove = false;
       }
 
-      let totalHeight = this.gameSettings.spriteHeight * this.gameSettings.numRows;
+      let totalHeight = this.gameSettings.backgroundSpriteHeight * this.gameSettings.numRows;
       if(y + this.gameSettings.player.spriteHeight > totalHeight){
         shouldMove = false;
       }
 
-      let totalWidth = this.gameSettings.spriteWidth * this.gameSettings.numCols;
+      let totalWidth = this.gameSettings.backgroundSpriteWidth * this.gameSettings.numCols;
       if(x > totalWidth){
         shouldMove = false;
       }
@@ -32,27 +32,27 @@ class Player extends Entity {
     handleInput(keyCode) {
      switch (keyCode) {
       case 'left':
-        var x = this.x - this.gameSettings.spriteHeight;
+        var x = this.x - this.gameSettings.backgroundSpriteHeight;
         if(this.canMove(x, this.y)){
             this.x = x;
         }
         break;
        
       case 'up':
-      var y = this.y - this.gameSettings.spriteWidth;
+      var y = this.y - this.gameSettings.backgroundSpriteWidth;
         if(this.canMove(this.x, y)){
             this.y = y;
         }
         break;
 
       case 'right':
-      var x = this.x + this.gameSettings.spriteHeight;
+      var x = this.x + this.gameSettings.backgroundSpriteHeight;
         if(this.canMove(x, this.y)){
             this.x = x
         }
         break;
       case 'down':
-      var y = this.y + this.gameSettings.spriteWidth;
+      var y = this.y + this.gameSettings.backgroundSpriteWidth;
       if(this.canMove(this.x, y)){
         this.y = y;
       }

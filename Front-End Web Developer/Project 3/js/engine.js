@@ -142,7 +142,7 @@ class Engine {
         * so that we get the benefits of caching these images, since
         * we're using them over and over.
         */
-       this.ctx.drawImage(Resources.get(this.gameSettings.rowImages[row]), col * this.gameSettings.spriteHeight, row * this.gameSettings.spriteWidth);
+       this.ctx.drawImage(Resources.get(this.gameSettings.rowImages[row]), col * this.gameSettings.backgroundSpriteHeight, row * this.gameSettings.backgroundSpriteWidth);
       }
      }
    

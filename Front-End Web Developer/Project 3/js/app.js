@@ -2,8 +2,8 @@
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const gameSettings = {
-  spriteWidth: 83,
-  spriteHeight: 101,
+  backgroundSpriteWidth: 83,
+  backgroundSpriteHeight: 101,
   rowImages: [
     'images/water-block.png', // Top row is water
     'images/stone-block.png', // Row 1 of 3 of stone
@@ -22,7 +22,7 @@ const gameSettings = {
 
 this.allEnemies = [];
 this.allEnemies.push(new Enemy(0, 0, gameSettings));
-this.player = new Player(gameSettings.spriteHeight * 3, gameSettings.spriteWidth * 3, gameSettings);
+this.player = new Player(gameSettings.backgroundSpriteHeight * 3, gameSettings.backgroundSpriteWidth * 3, gameSettings);
 this.Engine = new Engine(document, window, player, allEnemies, gameSettings);
 
 // This listens for key presses and sends the keys to your

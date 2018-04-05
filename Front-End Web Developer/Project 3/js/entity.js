@@ -4,8 +4,6 @@ class Entity {
      this.x = x;
      this.y = y;
      this.gameSettings = gameSettings;
-     //this.width = gameSettings.spriteWidth;
-     //this.height = gameSettings.spriteHeight;
     }
    
     // Update the enemy's position, required method for game
