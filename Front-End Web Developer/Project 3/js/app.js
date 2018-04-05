@@ -1,10 +1,15 @@
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
+let background = {
+  spriteWidth: 83,
+  spriteHeight: 101,
+  numRows: 6,
+  numCols: 5
+}
 const gameSettings = {
    backgroundContext: {
-    width: 83,
-    height: 101,
+    width: background.spriteWidth,
+    height: background.spriteHeight,
+    totalHeight: background.spriteHeight * background.numRows,
+    totalWidth: background.spriteWidth * background.numCols,
     rowImages: [
       'images/water-block.png', // Top row is water
       'images/stone-block.png', // Row 1 of 3 of stone
@@ -13,8 +18,8 @@ const gameSettings = {
       'images/grass-block.png', // Row 1 of 2 of grass
       'images/grass-block.png' // Row 2 of 2 of grass
      ],
-     numRows: 6,
-     numCols: 5
+     numRows: background.numRows,
+     numCols: background.numCols
    },
    player: {
     spriteWidth: 101,

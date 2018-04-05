@@ -10,18 +10,16 @@ class Player extends Entity {
         shouldMove = false;
       }
 
-      let totalHeight = backgroundContext.height * backgroundContext.numRows;
-      if(y + this.sprite.height > totalHeight){
+      if(y + this.sprite.height > backgroundContext.totalHeight){
         shouldMove = false;
       }
 
-      let totalWidth = backgroundContext.width * backgroundContext.numCols;
-      if(x > totalWidth){
+      if(x > backgroundContext.totalWidth){
         shouldMove = false;
       }
 
-      console.log('Total Height: ' + totalHeight)
-      console.log('Total Width: ' + totalWidth)
+      console.log('Total Height: ' + backgroundContext.totalHeight)
+      console.log('Total Width: ' + backgroundContext.totalWidth)
       console.log('Current Position(X:' + this.currentLocation.x + ', y:' + this.currentLocation.y + ')')
       console.log('Dest Position(X:' + x + ', y:' + y + ')')
       console.log('=======================================')
