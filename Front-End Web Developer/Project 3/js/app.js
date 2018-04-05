@@ -2,18 +2,20 @@
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 const gameSettings = {
-  backgroundSpriteWidth: 83,
-  backgroundSpriteHeight: 101,
-  rowImages: [
-    'images/water-block.png', // Top row is water
-    'images/stone-block.png', // Row 1 of 3 of stone
-    'images/stone-block.png', // Row 2 of 3 of stone
-    'images/stone-block.png', // Row 3 of 3 of stone
-    'images/grass-block.png', // Row 1 of 2 of grass
-    'images/grass-block.png' // Row 2 of 2 of grass
-   ],
-   numRows: 6,
-   numCols: 5,
+   backgroundContext: {
+    width: 83,
+    height: 101,
+    rowImages: [
+      'images/water-block.png', // Top row is water
+      'images/stone-block.png', // Row 1 of 3 of stone
+      'images/stone-block.png', // Row 2 of 3 of stone
+      'images/stone-block.png', // Row 3 of 3 of stone
+      'images/grass-block.png', // Row 1 of 2 of grass
+      'images/grass-block.png' // Row 2 of 2 of grass
+     ],
+     numRows: 6,
+     numCols: 5
+   },
    player: {
     spriteWidth: 101,
     spriteHeight: 201
@@ -21,9 +23,9 @@ const gameSettings = {
 }
 
 this.allEnemies = [];
-this.allEnemies.push(new Enemy(0, 0, gameSettings));
-this.player = new Player(gameSettings.backgroundSpriteHeight * 3, gameSettings.backgroundSpriteWidth * 3, gameSettings);
-this.Engine = new Engine(document, window, player, allEnemies, gameSettings);
+this.allEnemies.push(new Enemy(0, 0, gameSettings, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight));
+this.player = new Player(gameSettings.backgroundContext.height * 3, gameSettings.backgroundContext.width * 3, gameSettings, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight);
+this.Engine = new Engine(document, window, player, allEnemies, gameSettings, gameSettings);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
@@ -35,5 +37,5 @@ document.addEventListener('keyup', function(e) {
     40: 'down'
   };
 
-  player.handleInput(allowedKeys[e.keyCode]);
+  player.handleInput(allowedKeys[e.keyCode], gameSettings.backgroundContext);
 });

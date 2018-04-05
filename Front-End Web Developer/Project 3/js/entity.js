@@ -1,11 +1,15 @@
 class Entity {
-    constructor(spritePath, x, y, gameSettings) {
+    constructor(spritePath, x, y, gameSettings, width, height) {
      this.spritePath = spritePath;
+     this.sprite = {
+         path: spritePath,
+         width: width,
+         height: height
+     }
      this.currentLocation = {
          x: x,
          y: y
      }
-     this.gameSettings = gameSettings;
     }
    
     // Update the enemy's position, required method for game
@@ -14,11 +18,11 @@ class Entity {
      // You should multiply any movement by the dt parameter
      // which will ensure the game runs at the same speed for
      // all computers.
-     ctx.drawImage(Resources.get(this.spritePath), this.currentLocation.x, this.currentLocation.y, this.gameSettings.player.spriteWidth, this.gameSettings.player.spriteHeight)
+     ctx.drawImage(Resources.get(this.sprite.path), this.currentLocation.x, this.currentLocation.y, this.sprite.width, this.sprite.height)
     }
    
     // Draw the enemy on the screen, required method for game
     render(ctx) {
-     ctx.drawImage(Resources.get(this.spritePath), this.currentLocation.x, this.currentLocation.y, this.gameSettings.player.spriteWidth, this.gameSettings.player.spriteHeight);
+     ctx.drawImage(Resources.get(this.sprite.path), this.currentLocation.x, this.currentLocation.y, this.sprite.width, this.sprite.height);
     }
    }

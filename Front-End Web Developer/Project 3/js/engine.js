@@ -133,8 +133,8 @@ class Engine {
       * and, using the rowImages array, draw the correct image for that
       * portion of the "grid"
       */
-     for (row = 0; row < this.gameSettings.numRows; row++) {
-      for (col = 0; col < this.gameSettings.numCols; col++) {
+     for (row = 0; row < this.gameSettings.backgroundContext.numRows; row++) {
+      for (col = 0; col < this.gameSettings.backgroundContext.numCols; col++) {
        /* The drawImage function of the canvas' context element
         * requires 3 parameters: the image to draw, the x coordinate
         * to start drawing and the y coordinate to start drawing.
@@ -142,7 +142,7 @@ class Engine {
         * so that we get the benefits of caching these images, since
         * we're using them over and over.
         */
-       this.ctx.drawImage(Resources.get(this.gameSettings.rowImages[row]), col * this.gameSettings.backgroundSpriteHeight, row * this.gameSettings.backgroundSpriteWidth);
+       this.ctx.drawImage(Resources.get(this.gameSettings.backgroundContext.rowImages[row]), col * this.gameSettings.backgroundContext.height, row * this.gameSettings.backgroundContext.width);
       }
      }
    
