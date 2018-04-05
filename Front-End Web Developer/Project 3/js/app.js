@@ -6,8 +6,8 @@ let background = {
 }
 const gameSettings = {
    backgroundContext: {
-    width: background.spriteWidth,
-    height: background.spriteHeight,
+    spriteWidth: background.spriteWidth,
+    spriteHeight: background.spriteHeight,
     totalHeight: background.spriteHeight * background.numRows,
     totalWidth: background.spriteWidth * background.numCols,
     rowImages: [
@@ -29,7 +29,7 @@ const gameSettings = {
 
 this.allEnemies = [];
 this.allEnemies.push(new Enemy(0, 0, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight));
-this.player = new Player(gameSettings.backgroundContext.height * 3, gameSettings.backgroundContext.width * 3, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight);
+this.player = new Player(gameSettings.backgroundContext.spriteHeight * 3, gameSettings.backgroundContext.spriteWidth * 3, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight);
 this.Engine = new Engine(document, window, player, allEnemies, gameSettings, gameSettings);
 
 // This listens for key presses and sends the keys to your
