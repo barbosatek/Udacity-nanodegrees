@@ -112,7 +112,7 @@ class Engine {
      let innerThis = this;
    
      this.allEnemies.forEach(function(enemy) {
-      enemy.update(dt, innerThis.ctx);
+      enemy.update(dt, innerThis.ctx, innerThis.gameSettings.backgroundContext);
      });
      this.player.update(dt, innerThis.ctx);
     }
