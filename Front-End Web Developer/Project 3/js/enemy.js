@@ -16,6 +16,5 @@ class Enemy extends Entity {
         } else{
             this.currentLocation.x = 0 - this.sprite.width;
         }
-        
     }
 }
