@@ -18,12 +18,6 @@ class Player extends Entity {
         shouldMove = false;
       }
 
-      console.log('Total Height: ' + backgroundContext.totalHeight)
-      console.log('Total Width: ' + backgroundContext.totalWidth)
-      console.log('Current Position(X:' + this.currentLocation.x + ', y:' + this.currentLocation.y + ')')
-      console.log('Dest Position(X:' + x + ', y:' + y + ')')
-      console.log('=======================================')
-
       return shouldMove;
     }
    

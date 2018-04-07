@@ -26,6 +26,7 @@ class Engine {
       this.win = win,
       this.allEnemies = enemies,
       this.gameSettings = gameSettings,
+      this.isGameOver = false,
       this.lastTime;
    
      this.canvas.width = 505;
@@ -97,9 +98,39 @@ class Engine {
      * on the entities themselves within your app.js file).
      */
     update(dt) {
+      if(this.isGameOver){
+        return;
+      }
+
      this.updateEntities(dt);
-     // checkCollisions();
+     
+     let innerThis = this
+     let isGameOver = false;
+     
+     this.allEnemies.forEach(function(enemy) {
+      if(!isGameOver){
+        if(innerThis.isCollide(innerThis.player, enemy)){
+          isGameOver = true;
+        }
+      }
+     });
+
+     this.isGameOver =isGameOver;
     }
+
+    // Function originally from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+    // Rewritten to match the position structure of entities and made it more readable
+    isCollide(player, enemy) {
+      const widthDelta = 0;
+      const heightDelta = 90;
+
+      let enemyWidthCollision = player.currentLocation.x < enemy.currentLocation.x + enemy.sprite.width;
+      let playerWithCollision = player.currentLocation.x + player.sprite.width > enemy.currentLocation.x;
+      let enemyHeightCollision = player.currentLocation.y < enemy.currentLocation.y + enemy.sprite.height - heightDelta;      
+      let playerHeightCollision = player.sprite.height - heightDelta + player.currentLocation.y > enemy.currentLocation.y;
+
+      return enemyWidthCollision && playerWithCollision && enemyHeightCollision && playerHeightCollision;
+  } 
    
     /* This is called by the update function and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
@@ -124,6 +155,10 @@ class Engine {
      * they are just drawing the entire screen over and over.
      */
     render() {
+      if(this.isGameOver){
+        return;
+      }
+
      var row, col;
    
      // Before drawing, clear existing canvas

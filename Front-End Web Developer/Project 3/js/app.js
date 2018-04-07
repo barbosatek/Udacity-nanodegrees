@@ -24,13 +24,13 @@ const gameSettings = {
    },
    player: {
     spriteWidth: 101,
-    spriteHeight: 201
+    spriteHeight: 171
    }
 }
 
 this.allEnemies = [];
 this.allEnemies.push(new Enemy(0, 0, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight, 2));
-this.allEnemies.push(new Enemy(0, gameSettings.backgroundContext.spriteWidth * 2, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight, 2));
+this.allEnemies.push(new Enemy(0, gameSettings.backgroundContext.spriteWidth * 2, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight, 3));
 this.player = new Player(gameSettings.backgroundContext.spriteHeight * 3, gameSettings.backgroundContext.spriteWidth * 3, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight);
 this.Engine = new Engine(document, window, player, allEnemies, gameSettings, gameSettings);
 
