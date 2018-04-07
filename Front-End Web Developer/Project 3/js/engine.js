@@ -105,17 +105,18 @@ class Engine {
      this.updateEntities(dt);
      
      let innerThis = this
-     let isGameOver = false;
+     let didPlayerCollide = false;
      
      this.allEnemies.forEach(function(enemy) {
-      if(!isGameOver){
+      if(!didPlayerCollide){
         if(innerThis.isCollide(innerThis.player, enemy)){
-          isGameOver = true;
+          didPlayerCollide = true;
+          innerThis.player.moveToStartingPosition();
         }
       }
      });
 
-     this.isGameOver =isGameOver;
+     //this.isGameOver =isGameOver;
     }
 
     // Function originally from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection

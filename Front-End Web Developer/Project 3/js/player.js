@@ -1,6 +1,15 @@
 class Player extends Entity {
     constructor(x, y, width, height) {
      super('images/char-boy.png', x, y, width, height);
+     this.startingPosition = {
+       x,y
+     };
+    }
+
+    // Moves the player's position to its starting position
+    moveToStartingPosition(){
+      this.currentLocation.x = this.startingPosition.x;
+      this.currentLocation.y = this.startingPosition.y;
     }
 
     // Determines weather or not entity can move to the desired location.
