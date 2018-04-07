@@ -1,6 +1,6 @@
 class Enemy extends Entity {
-    constructor(x, y, width, height, velocity) {
-     super('images/enemy-bug.png', x, y, width, height);
+    constructor(sprite, x, y, velocity) {
+     super(sprite, x, y);
      this.velocity = velocity;
     }
 

@@ -119,20 +119,6 @@ class Engine {
      //this.isGameOver =isGameOver;
     }
 
-    // Function originally from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
-    // Rewritten to match the position structure of entities and made it more readable
-    isCollide(player, enemy) {
-      const widthDelta = 0;
-      const heightDelta = 90;
-
-      let enemyWidthCollision = player.currentLocation.x < enemy.currentLocation.x + enemy.sprite.width;
-      let playerWithCollision = player.currentLocation.x + player.sprite.width > enemy.currentLocation.x;
-      let enemyHeightCollision = player.currentLocation.y < enemy.currentLocation.y + enemy.sprite.height - heightDelta;      
-      let playerHeightCollision = player.sprite.height - heightDelta + player.currentLocation.y > enemy.currentLocation.y;
-
-      return enemyWidthCollision && playerWithCollision && enemyHeightCollision && playerHeightCollision;
-  } 
-   
     /* This is called by the update function and loops through all of the
      * objects within your allEnemies array as defined in app.js and calls
      * their update() methods. It will then call the update function for your
@@ -178,12 +164,28 @@ class Engine {
         * so that we get the benefits of caching these images, since
         * we're using them over and over.
         */
-       this.ctx.drawImage(Resources.get(this.gameSettings.backgroundContext.rowImages[row]), col * this.gameSettings.backgroundContext.spriteHeight, row * this.gameSettings.backgroundContext.spriteWidth);
+       this.ctx.drawImage(Resources.get(this.gameSettings.backgroundContext.rowImages[row]),
+        col * (this.gameSettings.backgroundContext.spriteHeight - this.gameSettings.backgroundContext.spriteHeightPadding),
+        row * (this.gameSettings.backgroundContext.spriteWidth - this.gameSettings.backgroundContext.spriteWidthPadding));
       }
      }
    
      this.renderEntities();
     }
+
+    // Function originally from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
+    // Rewritten to match the position structure of entities and made it more readable
+    isCollide(player, enemy) {
+      const widthDelta = 0;
+      const heightDelta = 90;
+
+      let enemyWidthCollision = player.currentLocation.x < enemy.currentLocation.x + enemy.sprite.width;
+      let playerWithCollision = player.currentLocation.x + player.sprite.width > enemy.currentLocation.x;
+      let enemyHeightCollision = player.currentLocation.y < enemy.currentLocation.y + enemy.sprite.height - heightDelta;      
+      let playerHeightCollision = player.sprite.height - heightDelta + player.currentLocation.y > enemy.currentLocation.y;
+
+      return enemyWidthCollision && playerWithCollision && enemyHeightCollision && playerHeightCollision;
+  }
    
     /* This function is called by the render function and is called on each game
      * tick. Its purpose is to then call the render functions you have defined

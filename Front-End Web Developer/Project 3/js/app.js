@@ -1,6 +1,8 @@
 let background = {
-  spriteWidth: 83,
-  spriteHeight: 101,
+  spriteWidth: 101,
+  spriteHeight: 171,
+  spriteHeightPadding: 70,
+  spriteWidthPadding: 18,
   numRows: 6,
   numCols: 5
 }
@@ -9,8 +11,10 @@ const gameSettings = {
    backgroundContext: {
     spriteWidth: background.spriteWidth,
     spriteHeight: background.spriteHeight,
-    totalHeight: background.spriteHeight * background.numRows,
-    totalWidth: background.spriteWidth * background.numCols,
+    totalHeight: (background.spriteHeight - background.spriteHeightPadding) * background.numRows,
+    totalWidth: (background.spriteWidth - background.spriteWidthPadding) * background.numCols,
+    spriteHeightPadding: background.spriteHeightPadding,
+    spriteWidthPadding: background.spriteWidthPadding,
     rowImages: [
       'images/water-block.png', // Top row is water
       'images/stone-block.png', // Row 1 of 3 of stone
@@ -28,10 +32,22 @@ const gameSettings = {
    }
 }
 
+var getPosition = (col, row) => {
+  return {
+    x: (gameSettings.backgroundContext.spriteWidth - gameSettings.backgroundContext.spriteWidthPadding) * col,
+    y: (gameSettings.backgroundContext.spriteHeight - gameSettings.backgroundContext.spriteHeightPadding) * row
+  }
+}
+
+this.playerSprite = new Sprite('images/char-boy.png', gameSettings.player.spriteWidth, gameSettings.player.spriteHeight, 18, 70)
+this.enemySprite = new Sprite('images/enemy-bug.png', gameSettings.player.spriteWidth, gameSettings.player.spriteHeight, 18, 70)
+
 this.allEnemies = [];
-this.allEnemies.push(new Enemy(0, 0, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight, 2));
-this.allEnemies.push(new Enemy(0, gameSettings.backgroundContext.spriteWidth * 2, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight, 3));
-this.player = new Player(gameSettings.backgroundContext.spriteWidth * 2, gameSettings.backgroundContext.spriteHeight * 4, gameSettings.player.spriteWidth, gameSettings.player.spriteHeight);
+this.allEnemies.push(new Enemy(this.enemySprite, 0, 0, 2));
+this.allEnemies.push(new Enemy(this.enemySprite, 0, gameSettings.backgroundContext.spriteWidth * 2, 3));
+
+let playerPosition = getPosition(1,4);
+this.player = new Player(this.playerSprite, playerPosition.x, playerPosition.y);
 this.Engine = new Engine(document, window, player, allEnemies, gameSettings, gameSettings);
 
 // This listens for key presses and sends the keys to your
