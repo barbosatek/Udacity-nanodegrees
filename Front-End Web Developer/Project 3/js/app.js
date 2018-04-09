@@ -33,11 +33,16 @@ const gameSettings = {
 }
 
 var getPosition = (col, row) => {
+  let x = gameSettings.backgroundContext.spriteWidth * col;
+  let y = (gameSettings.backgroundContext.spriteHeight - gameSettings.backgroundContext.spriteHeightPadding) * row;
+  
   return {
-    x: (gameSettings.backgroundContext.spriteWidth - gameSettings.backgroundContext.spriteWidthPadding) * col,
-    y: (gameSettings.backgroundContext.spriteHeight - gameSettings.backgroundContext.spriteHeightPadding) * row
+    x,
+    y
   }
 }
+
+let playerPosition = getPosition(1,4);
 
 this.playerSprite = new Sprite('images/char-boy.png', gameSettings.player.spriteWidth, gameSettings.player.spriteHeight, 18, 70)
 this.enemySprite = new Sprite('images/enemy-bug.png', gameSettings.player.spriteWidth, gameSettings.player.spriteHeight, 18, 70)
@@ -46,7 +51,6 @@ this.allEnemies = [];
 this.allEnemies.push(new Enemy(this.enemySprite, 0, 0, 2));
 this.allEnemies.push(new Enemy(this.enemySprite, 0, gameSettings.backgroundContext.spriteWidth * 2, 3));
 
-let playerPosition = getPosition(1,4);
 this.player = new Player(this.playerSprite, playerPosition.x, playerPosition.y);
 this.Engine = new Engine(document, window, player, allEnemies, gameSettings, gameSettings);
 

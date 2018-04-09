@@ -39,27 +39,27 @@ class Player extends Entity {
     handleInput(keyCode, backgroundContext) {
      switch (keyCode) {
       case 'left':
-        var x = this.currentLocation.x - (backgroundContext.spriteWidth - backgroundContext.spriteWidthPadding);
+        var x = this.currentLocation.x - backgroundContext.spriteWidth;
         if(this.canMove(x, this.currentLocation.y, backgroundContext)){
             this.currentLocation.x = x;
         }
         break;
        
       case 'up':
-      var y = this.currentLocation.y - (backgroundContext.spriteHeight - backgroundContext.spriteHeightPadding);
+      var y = this.currentLocation.y - (backgroundContext.spriteHeight - backgroundContext.spriteHeightPadding) + backgroundContext.spriteWidthPadding;
         if(this.canMove(this.currentLocation.x, y, backgroundContext)){
             this.currentLocation.y = y;
         }
         break;
 
       case 'right':
-      var x = this.currentLocation.x + (backgroundContext.spriteWidth - backgroundContext.spriteWidthPadding);
+      var x = this.currentLocation.x + backgroundContext.spriteWidth;
         if(this.canMove(x, this.currentLocation.y, backgroundContext)){
             this.currentLocation.x = x
         }
         break;
       case 'down':
-      var y = this.currentLocation.y + (backgroundContext.spriteHeight - backgroundContext.spriteHeightPadding);
+      var y = this.currentLocation.y + (backgroundContext.spriteHeight - backgroundContext.spriteHeightPadding) - backgroundContext.spriteWidthPadding;
       if(this.canMove(this.currentLocation.x, y, backgroundContext)){
         this.currentLocation.y = y;
       }
