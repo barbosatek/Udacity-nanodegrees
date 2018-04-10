@@ -43,7 +43,6 @@ class App {
     this.addEnemy(0,1);
     this.addEnemy(0,2);
     this.addEnemy(0,3);
-    this.addEnemy(0,4);
 
     this.Engine = new Engine(document, window, this.player, this.allEnemies, this.gameSettings);
     
@@ -102,5 +101,5 @@ class App {
   }
  }
 
- window.isDebugMode = true;
+ window.isDebugMode = false;
  let app = new App();

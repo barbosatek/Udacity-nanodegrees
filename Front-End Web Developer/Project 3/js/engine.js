@@ -26,7 +26,9 @@ class Engine {
       this.win = win,
       this.allEnemies = enemies,
       this.gameSettings = gameSettings,
-      this.isGameOver = false,
+      this.isGameLost = false,
+      this.isGameWon = false;
+      this.isLastRender = false;
       this.lastTime;
    
      this.canvas.width = 505;
@@ -50,6 +52,14 @@ class Engine {
      * and handles properly calling the update and render methods.
      */
     main() {
+      if(this.isLastRender){
+        return;
+      }
+
+      if(this.isGameLost || this.isGameWon){
+        this.isLastRender = true;
+      }
+
      /* Get our time delta information which is required if your game
       * requires smooth animation. Because everyone's computer processes
       * instructions at different speeds we need a constant value that
@@ -98,26 +108,27 @@ class Engine {
      * on the entities themselves within your app.js file).
      */
     update(dt) {
-      if(this.isGameOver){
-        return;
-      }
-
      this.updateEntities(dt);
      
-     let innerThis = this
-     let didPlayerCollide = false;
+     if(this.player.currentLocation.y < 0){
+      this.isGameWon = true;
+     }
      
-     this.allEnemies.forEach(function(enemy) {
-      if(!didPlayerCollide){
-        if(innerThis.isCollide(innerThis.player, enemy)){
-          didPlayerCollide = true;
-          innerThis.player.moveToStartingPosition();
-          innerThis.renderMessage('You Lost!');
-        }
-      }
-     });
-
-     this.isGameOver = didPlayerCollide;
+     if(!this.isGameWon && !this.isGameLost){
+      let innerThis = this
+      let didPlayerCollide = false;
+ 
+      this.allEnemies.forEach(function(enemy) {
+       if(!didPlayerCollide){
+         if(innerThis.isCollide(innerThis.player, enemy)){
+           didPlayerCollide = true;
+           innerThis.player.moveToStartingPosition();
+         }
+       }
+      });
+ 
+      this.isGameLost = didPlayerCollide;
+     }
     }
 
     /* This is called by the update function and loops through all of the
@@ -143,10 +154,6 @@ class Engine {
      * they are just drawing the entire screen over and over.
      */
     render() {
-      if(this.isGameOver){
-        return;
-      }
-
      var row, col;
    
      // Before drawing, clear existing canvas
@@ -172,6 +179,13 @@ class Engine {
      }
    
      this.renderEntities();
+     if(this.isLastRender){
+      if(this.isGameLost){
+        this.renderMessage('You Lost!');
+       } else if(this.isGameWon){
+        this.renderMessage('You Won!');
+       }
+     }
     }
 
     // Renders a message wihtin the canvas
