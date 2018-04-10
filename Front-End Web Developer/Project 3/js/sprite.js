@@ -1,3 +1,4 @@
+// Encapsulates sprites.
 class Sprite {
     constructor(spritePath, width, height, widthPadding, heightPadding) {
         this.path = spritePath;

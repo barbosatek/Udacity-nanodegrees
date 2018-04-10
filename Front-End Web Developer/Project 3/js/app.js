@@ -3,6 +3,8 @@
 // Format code
 // Options: Select player
 
+// Definies game static values and creates playe,
+// enemies, engine and runs game.
 class App {
   constructor() {
     const background = {
@@ -68,13 +70,15 @@ class App {
     
   }
 
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+  // From https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+  // Generates a random number given min and max.
   getRandomIntInclusive(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
   }
   
+  // Adds an enemy given its initial location.
   addEnemy(col, row){
     let x = this.gameSettings.backgroundContext.spriteWidth * col;
     let y = 0;
@@ -96,6 +100,7 @@ class App {
     this.allEnemies.push(new Enemy(enemySprite, x, y, velocity));
   }
 
+  // Add the player given its initial location.
   addPlayer(col, row){
     let x = this.gameSettings.backgroundContext.spriteWidth * col;
     let y = (this.gameSettings.backgroundContext.spriteHeight - this.gameSettings.backgroundContext.spriteHeightPadding) * row;

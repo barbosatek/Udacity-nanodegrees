@@ -1,3 +1,4 @@
+// Encapsulates an entity.
 class Entity {
     constructor(sprite, x, y) {
      this.sprite = sprite;
@@ -11,7 +12,7 @@ class Entity {
     this.fillColor = '#'+Math.floor(Math.random()*16777215).toString(16);
     }
    
-    // Draw the enemy on the screen, required method for game
+    // Draws the enemy on the screen, required method for game
     render(ctx, rotateImage) {
         var resource = Resources.get(this.sprite.path);
         if(window.isDebugMode && this.isColliding){

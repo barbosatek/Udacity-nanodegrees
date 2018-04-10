@@ -1,3 +1,4 @@
+// Encapsulates the Player
 class Player extends Entity {
     constructor(sprite, x, y) {
      super(sprite, x, y);
@@ -38,6 +39,7 @@ class Player extends Entity {
       return shouldMove;
     }
    
+    // Gets the actual enemy's drawn area.
     getDrawnArea(){
       var resource = Resources.get(this.sprite.path);
       let widthPadding = 20;
@@ -49,6 +51,7 @@ class Player extends Entity {
       }
     }
 
+    // Handles the input given the key code and the background values.
     handleInput(keyCode, backgroundContext) {
      switch (keyCode) {
       case 'left':
