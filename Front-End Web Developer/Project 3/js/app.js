@@ -39,7 +39,11 @@ class App {
     this.allEnemies = [];
 
     this.setupPlayer(2, 4);
+    this.addEnemy(0,0,3);
+    this.addEnemy(0,1,3);
     this.addEnemy(0,2,3);
+    this.addEnemy(0,3,3);
+    this.addEnemy(0,4,3);
     this.Engine = new Engine(document, window, this.player, this.allEnemies, this.gameSettings);
     
     // This listens for key presses and sends the keys to your
@@ -58,10 +62,24 @@ class App {
 
     
   }
-
+  
   addEnemy(col, row, velocity){
     let x = this.gameSettings.backgroundContext.spriteWidth * col;
-    let y = (this.gameSettings.backgroundContext.spriteHeight - this.gameSettings.backgroundContext.spriteHeightPadding) * row;
+    let y = 0;
+    
+    if(row == 0){
+        y = 0 - this.gameSettings.backgroundContext.spriteWidthPadding
+
+    } else{
+      y = (this.gameSettings.backgroundContext.spriteHeight
+        - this.gameSettings.backgroundContext.spriteHeightPadding
+        - (this.gameSettings.backgroundContext.spriteWidthPadding * 1))
+      * row;
+      
+      y = y - this.gameSettings.backgroundContext.spriteWidthPadding
+    }
+
+    console.log(`x:${x}, y:${y}`)
     let enemySprite = new Sprite('images/enemy-bug.png', this.gameSettings.player.spriteWidth, this.gameSettings.player.spriteHeight, this.gameSettings.backgroundContext.spriteWidthPadding, this.gameSettings.backgroundContext.spriteHeightPadding)
     this.allEnemies.push(new Enemy(enemySprite, x, y, velocity));
   }
