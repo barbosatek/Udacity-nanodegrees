@@ -1,3 +1,11 @@
+// TODO:
+// Delay collisions
+// Apply time delta
+// Add ReadMe
+// Add Comments
+// Format code
+// Options: Select player
+
 class App {
   constructor() {
     const background = {
