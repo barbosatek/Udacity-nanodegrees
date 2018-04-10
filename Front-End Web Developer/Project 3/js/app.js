@@ -87,7 +87,6 @@ class App {
       y = y - this.gameSettings.backgroundContext.spriteWidthPadding
     }
 
-    console.log(`x:${x}, y:${y}`)
     let enemySprite = new Sprite('images/enemy-bug.png', this.gameSettings.player.spriteWidth, this.gameSettings.player.spriteHeight, this.gameSettings.backgroundContext.spriteWidthPadding, this.gameSettings.backgroundContext.spriteHeightPadding)
     this.allEnemies.push(new Enemy(enemySprite, x, y, velocity));
   }
