@@ -40,10 +40,11 @@ class Player extends Entity {
    
     getDrawnArea(){
       var resource = Resources.get(this.sprite.path);
+      let widthPadding = 20;
       return {
-          x:this.currentLocation.x,
+          x:this.currentLocation.x + widthPadding,
           y:this.currentLocation.y + this.sprite.heightPadding - 8,
-          width: resource.width,
+          width: resource.width - (widthPadding * 2),
           height: resource.height - this.sprite.heightPadding - 20
       }
     }
