@@ -15,7 +15,7 @@ class Player extends Entity {
     // Determines weather or not entity can move to the desired location.
     canMove(x, y, backgroundContext){
       let shouldMove = true;
-      if(x < 0 || y < 0){
+      if(x < 0 || y < -backgroundContext.spriteHeightPadding){
         shouldMove = false;
       }
 

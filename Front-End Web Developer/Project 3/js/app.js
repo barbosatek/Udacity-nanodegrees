@@ -38,12 +38,13 @@ class App {
     this.player;
     this.allEnemies = [];
 
-    this.setupPlayer(2, 4);
-    this.addEnemy(0,0,3);
-    this.addEnemy(0,1,3);
-    this.addEnemy(0,2,3);
-    this.addEnemy(0,3,3);
-    this.addEnemy(0,4,3);
+    this.addPlayer(2, 4);
+    
+    this.addEnemy(0,1);
+    this.addEnemy(0,2);
+    this.addEnemy(0,3);
+    this.addEnemy(0,4);
+
     this.Engine = new Engine(document, window, this.player, this.allEnemies, this.gameSettings);
     
     // This listens for key presses and sends the keys to your
@@ -62,10 +63,18 @@ class App {
 
     
   }
+
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+  getRandomIntInclusive(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+  }
   
-  addEnemy(col, row, velocity){
+  addEnemy(col, row){
     let x = this.gameSettings.backgroundContext.spriteWidth * col;
     let y = 0;
+    let velocity = this.getRandomIntInclusive(1,3)
     
     if(row == 0){
         y = 0 - this.gameSettings.backgroundContext.spriteWidthPadding
@@ -84,7 +93,7 @@ class App {
     this.allEnemies.push(new Enemy(enemySprite, x, y, velocity));
   }
 
-  setupPlayer(col, row){
+  addPlayer(col, row){
     let x = this.gameSettings.backgroundContext.spriteWidth * col;
     let y = (this.gameSettings.backgroundContext.spriteHeight - this.gameSettings.backgroundContext.spriteHeightPadding) * row;
     
