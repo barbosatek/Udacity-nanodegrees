@@ -112,11 +112,12 @@ class Engine {
         if(innerThis.isCollide(innerThis.player, enemy)){
           didPlayerCollide = true;
           innerThis.player.moveToStartingPosition();
+          innerThis.renderMessage('You Lost!');
         }
       }
      });
 
-     //this.isGameOver =isGameOver;
+     this.isGameOver = didPlayerCollide;
     }
 
     /* This is called by the update function and loops through all of the
@@ -171,6 +172,25 @@ class Engine {
      }
    
      this.renderEntities();
+    }
+
+    // Renders a message wihtin the canvas
+    renderMessage(message){
+      let yPadding = 220;
+      let xPadding = 100;
+      let modalWidth = this.canvas.width - (xPadding * 2);
+      let modalHeight = this.canvas.height - (yPadding * 2);
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.lineWidth="2";
+      this.ctx.strokeStyle="black";
+      this.ctx.rect(xPadding, yPadding, modalWidth, modalHeight); 
+      this.ctx.fillRect(xPadding, yPadding, modalWidth, modalHeight);
+      this.ctx.stroke();
+
+      this.ctx.fillStyle = '#000000';
+      let fontSize = 20;
+      this.ctx.font=`${fontSize}px Georgia`;
+      this.ctx.fillText(message, xPadding + 25, yPadding + fontSize + (modalHeight / 3), modalWidth);
     }
 
     // Function originally from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
