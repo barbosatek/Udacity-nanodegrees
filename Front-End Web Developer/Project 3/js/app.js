@@ -1,7 +1,6 @@
 // TODO:
-// Apply time delta
 // Add ReadMe
-// Add Comments
+// Add Comments / Clean up code
 // Format code
 // Options: Select player
 
@@ -80,7 +79,7 @@ class App {
   addEnemy(col, row){
     let x = this.gameSettings.backgroundContext.spriteWidth * col;
     let y = 0;
-    let velocity = this.getRandomIntInclusive(1,3)
+    let velocity = this.getRandomIntInclusive(50,300)
     
     if(row == 0){
         y = 0 - this.gameSettings.backgroundContext.spriteWidthPadding

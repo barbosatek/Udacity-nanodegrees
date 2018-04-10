@@ -11,11 +11,6 @@ class Entity {
     this.fillColor = '#'+Math.floor(Math.random()*16777215).toString(16);
     }
    
-    // Update the enemy's position, required method for game
-    // Parameter: timeDelta, a time delta between ticks
-    update(timeDelta, ctx) {
-    }
-
     // Draw the enemy on the screen, required method for game
     render(ctx, rotateImage) {
         var resource = Resources.get(this.sprite.path);

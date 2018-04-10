@@ -18,11 +18,11 @@ class Enemy extends Entity {
         }
     }
 
-    update(timeDelta, ctx, backgroundContext) {
-        super.update(timeDelta, ctx);
-
+    // Update the enemy's position, required method for game
+    // Parameter: timeDelta, a time delta between ticks
+    update(timeDelta, backgroundContext) {
         if(this.canMoveRight(backgroundContext)){
-            this.currentLocation.x =this.currentLocation.x + (1* this.velocity);
+            this.currentLocation.x = (this.currentLocation.x + (timeDelta * this.velocity));
         } else{
             this.currentLocation.x = 0 - this.sprite.width;
         }
