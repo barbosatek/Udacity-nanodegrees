@@ -26,7 +26,6 @@ class Engine {
       this.win = win,
       this.allEnemies = enemies,
       this.gameSettings = gameSettings,
-      this.isGameLost = false,
       this.isGameWon = false;
       this.isLastRender = false;
       this.lastTime;
@@ -56,7 +55,7 @@ class Engine {
         return;
       }
 
-      if(this.isGameLost || this.isGameWon){
+      if(this.isGameWon){
         this.isLastRender = true;
       }
 
@@ -114,7 +113,7 @@ class Engine {
       this.isGameWon = true;
      }
      
-     if(!this.isGameWon && !this.isGameLost){
+     if(!this.isGameWon){
       let innerThis = this
       let didPlayerCollide = false;
  
@@ -126,8 +125,6 @@ class Engine {
          }
        }
       });
- 
-      this.isGameLost = didPlayerCollide;
      }
     }
 
@@ -179,12 +176,8 @@ class Engine {
      }
    
      this.renderEntities();
-     if(this.isLastRender){
-      if(this.isGameLost){
-        this.renderMessage('You Lost!');
-       } else if(this.isGameWon){
-        this.renderMessage('You Won!');
-       }
+     if(this.isLastRender && this.isGameWon){
+      this.renderMessage('You Won!');
      }
     }
 
