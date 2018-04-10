@@ -27,6 +27,7 @@ class Engine {
       this.allEnemies = enemies,
       this.gameSettings = gameSettings,
       this.isGameWon = false;
+      this.isCollisionOcurring= false;
       this.isLastRender = false;
       this.lastTime;
    
@@ -113,18 +114,18 @@ class Engine {
       this.isGameWon = true;
      }
      
-     if(!this.isGameWon){
-      let innerThis = this
-      let didPlayerCollide = false;
- 
-      this.allEnemies.forEach(function(enemy) {
-       if(!didPlayerCollide){
-         if(innerThis.isCollide(innerThis.player, enemy)){
-           didPlayerCollide = true;
-           innerThis.player.moveToStartingPosition();
-         }
-       }
-      });
+     if(!this.isGameWon && !this.isCollisionOcurring){
+      for (let enemy of this.allEnemies) {
+        if(this.isCollide(this.player, enemy)){
+          setTimeout(() => {
+            this.player.moveToStartingPosition();
+            this.isCollisionOcurring = false;
+          }, 200);
+
+          this.isCollisionOcurring = true;
+          break;
+        }
+      }
      }
     }
 

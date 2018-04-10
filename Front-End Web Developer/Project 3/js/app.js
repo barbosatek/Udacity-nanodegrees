@@ -1,5 +1,4 @@
 // TODO:
-// Delay collisions
 // Apply time delta
 // Add ReadMe
 // Add Comments
