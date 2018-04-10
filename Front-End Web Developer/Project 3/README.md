@@ -1,6 +1,29 @@
-frontend-nanodegree-arcade-game
-===============================
+# Arcade Game Project
+This game is implemented with vanilla JavaScript, HTML and CSS.
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+## Table of Contents
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+* [Instructions](#instructions)
+* [Project Structure](#structure)
+
+## Instructions
+
+To play the game, load the html file in the browser.
+
+To get started developing, open `js/app.js` and start modifiying the app's functionality
+
+## Project Structure
+```bash
+├── README.md - This file.
+├── index.html - Main html file.
+├── css
+│   └── app.css # CSS styles file.
+├── js
+│	├── app.js # Instatiates the game.
+│	├── enemy.js # Encapulates the enemy logic. Inherits entity.
+│	├── engine.js # Encapulates the game's main loop logic.
+│	├── entity.js # Encapulates the entity logic.
+│	├── player.js # Encapulates the player logic. Inherits entity.
+│	├── resources.js # Encapulates the resources logic. Loads and caches assets.
+│   └── sprite.js # Encapsulates the sprite logic.
+└── images # Assets used in the game.

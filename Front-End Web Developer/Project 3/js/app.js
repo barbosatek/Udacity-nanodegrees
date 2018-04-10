@@ -1,5 +1,4 @@
 // TODO:
-// Add ReadMe
 // Add Comments / Clean up code
 // Format code
 // Options: Select player
