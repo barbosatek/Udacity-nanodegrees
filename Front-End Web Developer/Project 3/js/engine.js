@@ -176,15 +176,33 @@ class Engine {
     // Function originally from https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
     // Rewritten to match the position structure of entities and made it more readable
     isCollide(player, enemy) {
-      const widthDelta = 0;
-      const heightDelta = 90;
+      let enemyArea = enemy.getDrawnArea();
+      let playerArea = player.getDrawnArea();
 
-      let enemyWidthCollision = player.currentLocation.x < enemy.currentLocation.x + enemy.sprite.width;
-      let playerWithCollision = player.currentLocation.x + player.sprite.width > enemy.currentLocation.x;
-      let enemyHeightCollision = player.currentLocation.y < enemy.currentLocation.y + enemy.sprite.height - heightDelta;      
-      let playerHeightCollision = player.sprite.height - heightDelta + player.currentLocation.y > enemy.currentLocation.y;
+      let enemyWidthCollision = playerArea.x < enemyArea.x + enemyArea.width;
+      let playerWithCollision = playerArea.x + playerArea.width > enemyArea.x;
+      let enemyHeightCollision = playerArea.y < enemyArea.y + enemyArea.height;      
+      let playerHeightCollision = playerArea.height + playerArea.y > enemyArea.y;
 
-      return enemyWidthCollision && playerWithCollision && enemyHeightCollision && playerHeightCollision;
+      let didCollide = enemyWidthCollision && playerWithCollision && enemyHeightCollision && playerHeightCollision;
+      
+      if(window.isDebugMode){
+        if(didCollide){
+          console.log(`enemyWidthCollision(${enemyWidthCollision})`);
+          console.log(`playerWithCollision(${playerWithCollision})`);
+          console.log(`enemyHeightCollision(${enemyHeightCollision})`);
+          console.log(`playerHeightCollision(${playerHeightCollision})`);
+          console.log("===================================")
+
+          player.isColliding = true;
+          enemy.isColliding = true;
+        } else{
+          player.isColliding = false;
+          enemy.isColliding = false;
+        }
+      }
+      
+      return didCollide;
   }
    
     /* This function is called by the render function and is called on each game

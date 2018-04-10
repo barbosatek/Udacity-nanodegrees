@@ -8,6 +8,16 @@ class Enemy extends Entity {
         return (this.currentLocation.x - this.sprite.width) > backgroundContext.totalWidth ? false : true;
     }
 
+    getDrawnArea(){
+        var resource = Resources.get(this.sprite.path);
+        return {
+            x:this.currentLocation.x,
+            y:this.currentLocation.y + this.sprite.heightPadding,
+            width: resource.width,
+            height: resource.height - this.sprite.heightPadding - 20
+        }
+    }
+
     update(timeDelta, ctx, backgroundContext) {
         super.update(timeDelta, ctx);
 

@@ -102,4 +102,5 @@ class App {
   }
  }
 
+ window.isDebugMode = true;
  let app = new App();

@@ -27,15 +27,27 @@ class Player extends Entity {
         shouldMove = false;
       }
 
-      console.log('Total Height: ' + backgroundContext.totalHeight)
-      console.log('Total Width: ' + backgroundContext.totalWidth)
-      console.log('Current Position(X:' + this.currentLocation.x + ', y:' + this.currentLocation.y + ')')
-      console.log('Dest Position(X:' + x + ', y:' + y + ')')
-      console.log('=======================================')
-
+      if(window.isDebugMode){
+        console.log('Total Height: ' + backgroundContext.totalHeight)
+        console.log('Total Width: ' + backgroundContext.totalWidth)
+        console.log('Current Position(X:' + this.currentLocation.x + ', y:' + this.currentLocation.y + ')')
+        console.log('Dest Position(X:' + x + ', y:' + y + ')')
+        console.log('=======================================')
+      }
+      
       return shouldMove;
     }
    
+    getDrawnArea(){
+      var resource = Resources.get(this.sprite.path);
+      return {
+          x:this.currentLocation.x,
+          y:this.currentLocation.y + this.sprite.heightPadding - 8,
+          width: resource.width,
+          height: resource.height - this.sprite.heightPadding - 20
+      }
+    }
+
     handleInput(keyCode, backgroundContext) {
      switch (keyCode) {
       case 'left':
