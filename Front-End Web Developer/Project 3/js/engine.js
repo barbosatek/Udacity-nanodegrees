@@ -34,18 +34,8 @@ class Engine {
     this.canvas.width = 505;
     this.canvas.height = 606;
     doc.body.appendChild(this.canvas);
-
-    Resources.load([
-      "images/stone-block.png",
-      "images/water-block.png",
-      "images/grass-block.png",
-      "images/enemy-bug.png",
-      "images/char-boy.png"
-    ]);
-
-    Resources.onReady(() => {
-      this.init();
-    });
+    
+    this.init();
   }
 
   /* This function serves as the kickoff point for the game loop itself

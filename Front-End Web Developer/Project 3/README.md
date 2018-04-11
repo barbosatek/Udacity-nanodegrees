@@ -24,6 +24,7 @@ To get started developing, open `js/app.js` and start modifiying the app's funct
 │	├── engine.js # Encapulates the game's main loop logic.
 │	├── entity.js # Encapulates the entity logic.
 │	├── player.js # Encapulates the player logic. Inherits entity.
+│	├── playerSelector.js # Encapsulates the logix to render and select a player.
 │	├── resources.js # Encapulates the resources logic. Loads and caches assets.
 │   └── sprite.js # Encapsulates the sprite logic.
 └── images # Assets used in the game.

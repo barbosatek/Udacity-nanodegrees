@@ -1,10 +1,7 @@
-// TODO:
-// Options: Select player
-
 // Definies game static values and creates playe,
 // enemies, engine and runs game.
 class App {
-  constructor() {
+  constructor(playerSpritePath) {
     const background = {
       spriteWidth: 101,
       spriteHeight: 171,
@@ -47,7 +44,7 @@ class App {
     this.player;
     this.allEnemies = [];
 
-    this.addPlayer(2, 4);
+    this.addPlayer(2, 4, playerSpritePath);
 
     this.addEnemy(0, 1);
     this.addEnemy(0, 2);
@@ -116,7 +113,7 @@ class App {
   }
 
   // Add the player given its initial location.
-  addPlayer(col, row) {
+  addPlayer(col, row, spritePath) {
     let x = this.gameSettings.backgroundContext.spriteWidth * col;
     let y =
       (this.gameSettings.backgroundContext.spriteHeight -
@@ -124,7 +121,7 @@ class App {
       row;
 
     let playerSprite = new Sprite(
-      "images/char-boy.png",
+      spritePath,
       this.gameSettings.player.spriteWidth,
       this.gameSettings.player.spriteHeight,
       this.gameSettings.backgroundContext.spriteWidthPadding,
@@ -135,4 +132,27 @@ class App {
 }
 
 window.isDebugMode = false;
-let app = new App();
+Resources.load([
+  "images/stone-block.png",
+  "images/water-block.png",
+  "images/grass-block.png",
+  "images/enemy-bug.png",
+  "images/char-boy.png",
+  "images/char-cat-girl.png",
+  "images/char-horn-girl.png",
+  "images/char-pink-girl.png",
+  "images/char-princess-girl.png"
+]);
+
+Resources.onReady(() => {
+  let playerSelector = new PlayerSelector(document,
+    window,
+    ["images/char-boy.png",
+    "images/char-cat-girl.png",
+    "images/char-horn-girl.png",
+    "images/char-pink-girl.png",
+    "images/char-princess-girl.png",
+  ], (path) => {
+    let app = new App(path);
+  });
+});
