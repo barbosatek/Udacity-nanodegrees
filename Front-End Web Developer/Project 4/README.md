@@ -16,10 +16,10 @@ To get started developing tests, open `js/jasmine/spec/feedreader.js` and start 
 ```bash
 ├── README.md - This file.
 ├── index.html - Main html file.
-├── css - contains Feed Reader's styles
-├── fonts - contains Feed Reader's fonts
+├── css - Contains Feed Reader's styles
+├── fonts - Contains Feed Reader's fonts
 ├── js
-│	└── app.js # Containes the logic for manipulating the DOM with the feeds. This is the target code under test.
+│	└── app.js # Contains the logic for manipulating the DOM with the feeds. This is the target code under test.
 └── jasmine - Jasmine framework and specs
 	└── lib - Jasmine framework and runner
 	└── spec #
