@@ -20,7 +20,7 @@ To get started developing tests, open `js/jasmine/spec/feedreader.js` and start 
 ├── fonts - contains Feed Reader's fonts
 ├── js
 │	└── app.js # Containes the logic for manipulating the DOM with the feeds. This is the target code under test.
-└── jasmine # Jasmine framework and specs
-	└── lib # Jasmine framework and runner
+└── jasmine - Jasmine framework and specs
+	└── lib - Jasmine framework and runner
 	└── spec #
 		└── feedreader.js # Defines the specs describing the expected behavior and tests.
