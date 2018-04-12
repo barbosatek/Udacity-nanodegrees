@@ -100,7 +100,7 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
         it("should load a least a single entry when load completes", (done) => {
-            let entryNodes = $('.entry');
+            let entryNodes = $('.feed .entry');
 
             expect(entryNodes).toBeDefined();
             expect(entryNodes.length).not.toBe(0);
@@ -110,11 +110,21 @@ $(function() {
 
     /* TODO: Write a new test suite named "New Feed Selection" */
     describe('New Feed Selection', function(){
+        let initialContents, newContents;
 
         beforeEach(function (done) {
             loadFeed(0, function(){
-                done();
-            })
+                initialContents = $('.feed').contents();
+                expect(initialContents).toBeDefined();
+                expect(initialContents.length).not.toBe(0);
+
+                loadFeed(1, function(){
+                    newContents = $('.feed').contents();
+                    expect(newContents).toBeDefined();
+                    expect(newContents.length).not.toBe(0);
+                    done();
+                });
+            });
         });
 
         /* TODO: Write a test that ensures when a new feed is loaded
@@ -122,17 +132,8 @@ $(function() {
          * Remember, loadFeed() is asynchronous.
          */
         it("changes contents when a new feed is loaded", (done) => {
-            let initialContents = $('.feed').contents();
-            expect(initialContents).toBeDefined();
-            expect(initialContents.length).not.toBe(0);
-
-            loadFeed(1, function(){
-                let newContents = $('.feed').contents();
-                expect(newContents).toBeDefined();
-                expect(newContents.length).not.toBe(0);
-                expect(newContents == initialContents).toBe(false);
-                done();
-            })
+            expect(newContents == initialContents).toBe(false);
+            done();
         });
     });
 }());
