@@ -64,7 +64,7 @@ $(function() {
             let bodyNode = $('body');
 
             expect(bodyNode).toBeDefined();
-            expect(bodyNode.attr("class")).toBe('menu-hidden');
+            expect(bodyNode.hasClass("menu-hidden")).toBe(true);
         });
 
          /* TODO: Write a test that ensures the menu changes
@@ -72,18 +72,15 @@ $(function() {
           * should have two expectations: does the menu display when
           * clicked and does it hide when clicked again.
           */
-         it("", () => {
+         it("changes visibility when clicked.", () => {
             let bodyNode = $('body');
-            expect(bodyNode).toBeDefined();
-
             let menuIcon = $('.menu-icon-link');
-            expect(menuIcon).toBeDefined();
 
             menuIcon.click();
-            expect(bodyNode.attr("class")).not.toBe('menu-hidden');
+            expect(bodyNode.hasClass("menu-hidden")).toBe(false);
 
             menuIcon.click();
-            expect(bodyNode.attr("class")).toBe('menu-hidden');
+            expect(bodyNode.hasClass("menu-hidden")).toBe(true);
         });
     });
 
@@ -91,7 +88,9 @@ $(function() {
     describe('Initial Entries', function(){
 
         beforeEach(function (done) {
-            done();
+            loadFeed(0, function(){
+                done();
+            })
         });
 
         /* TODO: Write a test that ensures when the loadFeed
@@ -101,13 +100,11 @@ $(function() {
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
         it("should load a least a single entry when load completes", (done) => {
-            loadFeed(0, function(){
-                let entryNodes = $('.entry');
+            let entryNodes = $('.entry');
 
-                expect(entryNodes).toBeDefined();
-                expect(entryNodes.length).not.toBe(0);
-                done();
-            })
+            expect(entryNodes).toBeDefined();
+            expect(entryNodes.length).not.toBe(0);
+            done();
         });
     });
 
@@ -115,44 +112,26 @@ $(function() {
     describe('New Feed Selection', function(){
 
         beforeEach(function (done) {
-            done();
+            loadFeed(0, function(){
+                done();
+            })
         });
 
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
-        it("", (done) => {
-            loadFeed(0, function(){
-                let initialEntryNodes = $('.entry');
-                expect(initialEntryNodes).toBeDefined();
-                expect(initialEntryNodes.length).not.toBe(0);
+        it("changes contents when a new feed is loaded", (done) => {
+            let initialContents = $('.feed').contents();
+            expect(initialContents).toBeDefined();
+            expect(initialContents.length).not.toBe(0);
 
-                loadFeed(1, function(){
-                    let newEntryNodes = $('.entry');
-                    expect(newEntryNodes).toBeDefined();
-                    expect(newEntryNodes.length).not.toBe(0);
-
-                    for(let i = 0; i < initialEntryNodes.length; i++){
-                        let intialEntry = initialEntryNodes[i];
-                        expect(intialEntry).toBeDefined();
-
-                        let title = $(intialEntry).children('h2').text();
-                        expect(title).toBeDefined();
-
-                        let isMatchingEntryFound = false;
-
-                        for(let j = 0; j < newEntryNodes.length; j++){
-                            let newEntry = newEntryNodes[j];
-                            expect(newEntry).toBeDefined();
-                            isMatchingEntryFound = $(newEntry).children('h2').text() === title;
-                        }
-
-                        expect(isMatchingEntryFound).toBe(false);
-                    }
-
-                    done();
-                })
+            loadFeed(1, function(){
+                let newContents = $('.feed').contents();
+                expect(newContents).toBeDefined();
+                expect(newContents.length).not.toBe(0);
+                expect(newContents == initialContents).toBe(false);
+                done();
             })
         });
     });
