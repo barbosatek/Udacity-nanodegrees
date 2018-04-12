@@ -8,7 +8,8 @@ This project demonstrates using TDD to add test coverage to a feed reader in an 
 
 ## Instructions
 
-To run and interpret tests, load the html file in the browser.
+Clone this repository (https://github.com/barbosatek/Udacity-nanodegrees/tree/master/Front-End%20Web%20Developer).
+To run and interpret tests, after you cloned this repo, load the index.html file in the browser.
 
 To get started developing tests, open `js/jasmine/spec/feedreader.js` and start modifiying the tests
 
