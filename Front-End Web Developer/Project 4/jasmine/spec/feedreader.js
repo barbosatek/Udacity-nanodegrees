@@ -74,7 +74,10 @@ $(function() {
           */
          it("", () => {
             let bodyNode = $('body');
+            expect(bodyNode).toBeDefined();
+
             let menuIcon = $('.menu-icon-link');
+            expect(menuIcon).toBeDefined();
 
             menuIcon.click();
             expect(bodyNode.attr("class")).not.toBe('menu-hidden');
@@ -122,22 +125,26 @@ $(function() {
         it("", (done) => {
             loadFeed(0, function(){
                 let initialEntryNodes = $('.entry');
+                expect(initialEntryNodes).toBeDefined();
+                expect(initialEntryNodes.length).not.toBe(0);
 
                 loadFeed(1, function(){
                     let newEntryNodes = $('.entry');
-    
-                    expect(initialEntryNodes).toBeDefined();
-                    expect(initialEntryNodes.length).not.toBe(0);
                     expect(newEntryNodes).toBeDefined();
                     expect(newEntryNodes.length).not.toBe(0);
 
                     for(let i = 0; i < initialEntryNodes.length; i++){
                         let intialEntry = initialEntryNodes[i];
+                        expect(intialEntry).toBeDefined();
+
                         let title = $(intialEntry).children('h2').text();
+                        expect(title).toBeDefined();
+
                         let isMatchingEntryFound = false;
 
                         for(let j = 0; j < newEntryNodes.length; j++){
                             let newEntry = newEntryNodes[j];
+                            expect(newEntry).toBeDefined();
                             isMatchingEntryFound = $(newEntry).children('h2').text() === title;
                         }
 
