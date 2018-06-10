@@ -1,0 +1,1 @@
+export const LOAD_ALL_CAT = 'LOAD_ALL_CAT'
