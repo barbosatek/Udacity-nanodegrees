@@ -3,3 +3,8 @@ export const GetCategories = () => fetch(
     { headers: { 'Authorization': 'test' }}
   )
   
+  export const GetPosts = () => fetch(
+    "http://localhost:3001/posts",
+    { headers: { 'Authorization': 'test' }}
+  )
+  
