@@ -7,37 +7,16 @@ class CategoryMenu extends Component {
     const { store } = this.props;
     
     return (
-        <div className="container-fluid">
-      <div className="row">
-          <nav className="col-md-2 d-none d-md-block bg-light sidebar">
-              <div className="sidebar-sticky">
-                <ul className="nav flex-column">
-                    {Object.keys(store.categories).map((key, index) =>
-                      <li className="nav-item" key={store.categories[key].name}>
-                          <Link to={`/${store.categories[key].path}`}>{store.categories[key].name}</Link>
-                      </li>
-                    )}
-                </ul>
-              </div>
-            </nav>
-
-            <main role="main" className="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                  <h1 className="h2">Home</h1>
-                  <div className="btn-toolbar mb-2 mb-md-0">
-                    <div className="btn-group mr-2">
-                      <button className="btn btn-sm btn-outline-secondary">Share</button>
-                      <button className="btn btn-sm btn-outline-secondary">Export</button>
-                    </div>
-                    <button className="btn btn-sm btn-outline-secondary dropdown-toggle">
-                      <span data-feather="calendar"></span>
-                      This week
-                    </button>
-                  </div>
-                </div>
-              </main>
-      </div>
-    </div>
+      <ul class="nav nav-pills nav-fill">
+        <li class="nav-item">
+          <a class="nav-link active" href="#">All</a>
+        </li>
+        {Object.keys(store.categories).map((key, index) =>
+          <li className="nav-item" key={store.categories[key].name}>
+              <a class="nav-link" href={`#/${store.categories[key].path}`}>{store.categories[key].name}</a>
+          </li>
+        )}
+      </ul>
     );
   }
 }
