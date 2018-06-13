@@ -19,21 +19,19 @@ class Post extends Component {
     const { store } = this.props;
 
     return (
-        <div>
-            <p>{this.state.post.title}</p>
-            <p>{this.state.post.author}</p>
-            <p>{this.state.post.body}</p>
-            <ul>
-                {Object.keys(store.comments).map((key, index) =>
-                    {
-                        return store.comments[key].parentId == this.state.post.id && !store.comments[key].deleted && 
-                        <li className="nav-item" key={store.comments[key].id}>
-                        <p>{store.comments[key].body}</p>
-                    </li>
-                    }
-                )}
-            </ul>
-        </div>
+        <a href="#" className="list-group-item list-group-item-action flex-column align-items-start">
+            <div className="d-flex w-100 justify-content-between">
+                <h5 className="mb-1">{this.state.post.title}</h5>
+                <small>{this.state.post.author}</small>
+            </div>
+            <p className="mb-1">{this.state.post.body}</p>
+            {Object.keys(store.comments).map((key, index) =>
+                {
+                    return store.comments[key].parentId == this.state.post.id && !store.comments[key].deleted && 
+                    <small>{store.comments[key].body}</small>
+                }
+            )}
+        </a>
     );
   }
 }

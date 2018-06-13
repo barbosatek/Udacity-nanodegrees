@@ -8,17 +8,13 @@ class Posts extends Component {
     const { store } = this.props;
 
     return (
-      <div>
-        <ul>
+      <div className="list-group">
         {Object.keys(store.posts).map((key, index) =>
           {
             return !store.posts[key].deleted && 
-            <li className="nav-item" key={store.posts[key].id}>
-              <Post post={store.posts[key]}></Post>
-          </li>
+            <Post post={store.posts[key]}></Post>
           }
         )}
-        </ul>
       </div>
     );
   }

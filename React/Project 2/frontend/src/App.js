@@ -6,13 +6,13 @@ class App extends Component {
   render() {
     return (
       <div className="container">
-        <div class="row">
-          <div class="col">
+        <div className="row">
+          <div className="col">
             <CategoryMenu />
           </div>
         </div>
-        <div class="row">
-          <div class="col">
+        <div className="row">
+          <div className="col">
             <Posts />
           </div>
         </div>
