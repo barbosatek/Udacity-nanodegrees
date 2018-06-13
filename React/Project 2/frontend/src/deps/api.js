@@ -10,5 +10,15 @@ export const GetCategories = () => fetch(
   
   export const GetPostComments = (id) => fetch(
     `http://localhost:3001/posts/${id}/comments`,
-    { headers: { 'Authorization': '8675309' }}
+    { headers: { 'Authorization': 'test' }}
   )
+
+  export const updatePostVote = (id, option) => {
+    return fetch(
+      `http://localhost:3001/posts/${id}`,
+      {
+        headers: { 'Authorization': 'test', 'Content-Type': 'application/json' }, method: "POST",
+        body: JSON.stringify(option)
+      }
+    )
+  }

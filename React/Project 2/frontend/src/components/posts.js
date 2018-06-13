@@ -12,7 +12,7 @@ class Posts extends Component {
         {Object.keys(store.posts).map((key, index) =>
           {
             return !store.posts[key].deleted && 
-            <Post post={store.posts[key]}></Post>
+            <Post post={store.posts[key]}  key={store.posts[key].id}></Post>
           }
         )}
       </div>

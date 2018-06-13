@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 import * as action from '../actions/post'
 import { loadPostComments } from '../actions/post'
+import { updatePostVote } from '../actions/post'
 
 class Post extends Component {
     state = {
@@ -13,6 +13,11 @@ class Post extends Component {
     componentWillMount() {
         this.props.dispatch(loadPostComments(this.props.post.id));
         this.setState({post: this.props.post});
+    }
+
+    updatePostVote = (post) => {
+        post.voteScore += 1;
+        this.props.dispatch(action.updatePostVote(post, "upVote"))
     }
 
   render() {
@@ -26,7 +31,7 @@ class Post extends Component {
                 <h5 className="mb-1">{this.state.post.title}</h5>
                 <small>
                     <div className="btn-group-sm" role="group" aria-label="Basic example">
-                        <button type="button" className="btn btn-light btn-sm">
+                        <button type="button" className="btn btn-light btn-sm" onClick={(e) => this.updatePostVote(this.state.post, {option: "upVote"})}>
                             <span className="oi oi-thumb-up"></span>
                         </button>
                         <button type="button" className="btn btn-light btn-sm">
@@ -51,7 +56,7 @@ class Post extends Component {
                             <span className="oi oi-pencil"></span>
                         </button>
                         <button type="button" className="btn btn-link">
-                            <span class="oi oi-trash"></span>
+                            <span className="oi oi-trash"></span>
                         </button>
                     </div>
                 </small>
@@ -60,7 +65,9 @@ class Post extends Component {
             {/* Author and VoteScore */}
             <div className="d-flex w-100 justify-content-between">
                 <p>
-                    <a href="#" data-toggle="collapse" href={`#${this.state.post.id}`}>Comments</a>
+                    <button className="btn btn-link" type="button" data-toggle="collapse" data-target={`#${this.state.post.id}`} aria-expanded="false" aria-controls="collapseExample">
+                    Comments
+                    </button>
                 </p>
             </div>
             
@@ -68,7 +75,7 @@ class Post extends Component {
             {Object.keys(store.comments).map((key, index) =>
                 {
                     return store.comments[key].parentId == this.state.post.id && !store.comments[key].deleted && 
-                        <div className="card card-body">
+                        <div className="card card-body" key={store.comments[key].id}>
                             {store.comments[key].body}
                         </div>
                 }
