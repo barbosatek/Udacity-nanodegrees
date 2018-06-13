@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom'
 class CategoryMenu extends Component {
   render() {
     const { store } = this.props;
-
+    
     return (
         <div className="container-fluid">
       <div className="row">
           <nav className="col-md-2 d-none d-md-block bg-light sidebar">
               <div className="sidebar-sticky">
                 <ul className="nav flex-column">
-                    {store.categories.map((category) =>
-                      <li className="nav-item" key={category.name}>
-                          <Link to={`/${category.path}`}>{category.name}</Link>
+                    {Object.keys(store.categories).map((key, index) =>
+                      <li className="nav-item" key={store.categories[key].name}>
+                          <Link to={`/${store.categories[key].path}`}>{store.categories[key].name}</Link>
                       </li>
                     )}
                 </ul>
@@ -44,7 +44,7 @@ class CategoryMenu extends Component {
 function mapStateToProps(store) {
     return {
         store: {
-            categories: [...store.categories]
+            categories: store.categories
         }
       }
   }

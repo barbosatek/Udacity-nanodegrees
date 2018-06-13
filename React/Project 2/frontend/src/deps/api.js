@@ -8,3 +8,7 @@ export const GetCategories = () => fetch(
     { headers: { 'Authorization': 'test' }}
   )
   
+  export const GetPostComments = (id) => fetch(
+    `http://localhost:3001/posts/${id}/comments`,
+    { headers: { 'Authorization': '8675309' }}
+  )

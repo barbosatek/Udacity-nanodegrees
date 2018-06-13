@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
+import Post from './post'
 
 class Posts extends Component {
   render() {
@@ -9,15 +10,11 @@ class Posts extends Component {
     return (
       <div>
         <ul>
-        {store.posts.map((post) =>
+        {Object.keys(store.posts).map((key, index) =>
           {
-            return !post.deleted && 
-            <li className="nav-item" key={post.id}>
-              <div>
-                <p>{post.title}</p>
-                <p>{post.author}</p>
-                <p>{post.body}</p>
-              </div>
+            return !store.posts[key].deleted && 
+            <li className="nav-item" key={store.posts[key].id}>
+              <Post post={store.posts[key]}></Post>
           </li>
           }
         )}
@@ -28,10 +25,9 @@ class Posts extends Component {
 }
 
 function mapStateToProps(store) {
-  console.log(store)
   return {
       store: {
-          posts: [...store.posts]
+          posts: store.posts
       }
     }
 }
