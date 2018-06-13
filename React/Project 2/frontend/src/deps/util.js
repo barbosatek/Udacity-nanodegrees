@@ -3,9 +3,9 @@ export const mapArrayToObject = (arr, key) => {
 
     for (let item of arr) {
         if(obj[item[key]]){
-            throw 'Property already exists.';
+            throw new Error("Property already exists");
         }
-        
+
         obj[item[key]] = item;
     }
 

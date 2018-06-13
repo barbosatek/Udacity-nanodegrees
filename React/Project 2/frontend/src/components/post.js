@@ -24,7 +24,7 @@ class Post extends Component {
     const { store } = this.props;
 
     return (
-        <a href="#" className="list-group-item list-group-item-action flex-column align-items-start">
+        <a href={`#${this.state.post.id}`} className="list-group-item list-group-item-action flex-column align-items-start">
             
             {/* Title and Vote buttons */}
             <div className="d-flex w-100 justify-content-between">
@@ -74,7 +74,7 @@ class Post extends Component {
             <div className="collapse" id={`${this.state.post.id}`}>
             {Object.keys(store.comments).map((key, index) =>
                 {
-                    return store.comments[key].parentId == this.state.post.id && !store.comments[key].deleted && 
+                    return store.comments[key].parentId === this.state.post.id && !store.comments[key].deleted && 
                         <div className="card card-body" key={store.comments[key].id}>
                             {store.comments[key].body}
                         </div>
