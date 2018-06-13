@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import * as action from '../actions/post'
-import { loadPostComments } from '../actions/post'
-import { updatePostVote } from '../actions/post'
 
 class Post extends Component {
     state = {
@@ -11,11 +9,11 @@ class Post extends Component {
     }
 
     componentWillMount() {
-        this.props.dispatch(loadPostComments(this.props.post.id));
+        this.props.dispatch(action.loadPostComments(this.props.post.id));
         this.setState({post: this.props.post});
     }
 
-    updatePostVote = (post) => {
+    voteUp = (post) => {
         post.voteScore += 1;
         this.props.dispatch(action.updatePostVote(post, "upVote"))
     }
@@ -31,7 +29,7 @@ class Post extends Component {
                 <h5 className="mb-1">{this.state.post.title}</h5>
                 <small>
                     <div className="btn-group-sm" role="group" aria-label="Basic example">
-                        <button type="button" className="btn btn-light btn-sm" onClick={(e) => this.updatePostVote(this.state.post, {option: "upVote"})}>
+                        <button type="button" className="btn btn-light btn-sm" onClick={(e) => this.voteUp(this.state.post, {option: "upVote"})}>
                             <span className="oi oi-thumb-up"></span>
                         </button>
                         <button type="button" className="btn btn-light btn-sm">
