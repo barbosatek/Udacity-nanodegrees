@@ -19,18 +19,38 @@ class Post extends Component {
     const { store } = this.props;
 
     return (
-        <a href="#" className="list-group-item list-group-item-action flex-column align-items-start">
+        <a href="#" data-toggle="collapse" href="#collapseExample" className="list-group-item list-group-item-action flex-column align-items-start">
             <div className="d-flex w-100 justify-content-between">
                 <h5 className="mb-1">{this.state.post.title}</h5>
-                <small>{this.state.post.author}</small>
+                <small>
+                    <div className="btn-group-sm" role="group" aria-label="Basic example">
+                        <button type="button" className="btn btn-light btn-sm">
+                            <span className="oi oi-thumb-up"></span>
+                        </button>
+                        <button type="button" className="btn btn-light btn-sm">
+                            <span className="oi oi-thumb-down"></span>
+                        </button>
+                        <button type="button" className="btn btn-link">
+                            <span className="oi oi-pencil"></span>
+                        </button>
+                    </div>
+                </small>
+            </div>
+            <div className="d-flex w-100 justify-content-between">
+                <p>By {this.state.post.author}</p>
+                <small>{this.state.post.voteScore} votes.</small>
             </div>
             <p className="mb-1">{this.state.post.body}</p>
+            <div className="collapse" id="collapseExample">
             {Object.keys(store.comments).map((key, index) =>
                 {
                     return store.comments[key].parentId == this.state.post.id && !store.comments[key].deleted && 
-                    <small>{store.comments[key].body}</small>
+                        <div className="card card-body">
+                            {store.comments[key].body}
+                        </div>
                 }
             )}
+            </div>
         </a>
     );
   }
