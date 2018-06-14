@@ -1,6 +1,8 @@
 import * as Api from '../deps/api'
 import {
     LOAD_POST_COMTS,
+    LOAD_ALL_POSTS,
+    CREATE_POST,
     UPDATE_POST
   } from './types'
 
@@ -11,6 +13,19 @@ import {
       .then((data) => {
         return dispatch({
           type: UPDATE_POST,
+          post: data
+        });
+      });
+    }
+  }
+
+  export const createPost = (title, author, body, category) => {
+    return function(dispatch){
+      return Api.createPost(title, author, body, category)
+      .then((res) => {return(res.json())})
+      .then((data) => {
+        return dispatch({
+          type: CREATE_POST,
           post: data
         });
       });
@@ -38,6 +53,20 @@ export const loadPostComments = function(id) {
           return dispatch({
             type: LOAD_POST_COMTS,
             comments: data
+          })
+        }
+      )
+    }
+  }
+
+  export const loadPosts = function() {
+    return function (dispatch) {
+      return Api.GetPosts()
+        .then((res) => {return(res.json())})
+        .then(function(data) {
+          return dispatch({
+            type: LOAD_ALL_POSTS,
+            posts: data
           })
         }
       )

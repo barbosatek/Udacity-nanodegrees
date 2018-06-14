@@ -1,5 +1,6 @@
 import {
     LOAD_ALL_POSTS,
+    CREATE_POST,
     UPDATE_POST
   } from '../actions/types'
 
@@ -10,6 +11,12 @@ import {
       case LOAD_ALL_POSTS:
         return mapArrayToObject(action.posts, 'id')
       case UPDATE_POST:
+        return {
+          ...state,
+          [action.post.id]: action.post
+        }
+        return mapArrayToObject(action.posts, 'id')
+      case CREATE_POST:
         return {
           ...state,
           [action.post.id]: action.post

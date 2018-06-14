@@ -16,7 +16,7 @@ class App extends Component {
         </div>
         <div className="row">
           <div className="col">
-            <Posts />
+            <Posts category="redux"/>
           </div>
         </div>
       </div>  

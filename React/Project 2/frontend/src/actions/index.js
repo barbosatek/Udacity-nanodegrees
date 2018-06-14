@@ -1,7 +1,6 @@
 import * as Api from '../deps/api'
 import {
-    LOAD_ALL_CAT,
-    LOAD_ALL_POSTS
+    LOAD_ALL_CAT
   } from './types'
 
 export const loadCategories = function() {
@@ -18,16 +17,4 @@ export const loadCategories = function() {
     }
   }
 
-  export const loadPosts = function() {
-    return function (dispatch) {
-      return Api.GetPosts()
-        .then((res) => {return(res.json())})
-        .then(function(data) {
-          return dispatch({
-            type: LOAD_ALL_POSTS,
-            posts: data
-          })
-        }
-      )
-    }
-  }
+  

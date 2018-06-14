@@ -1,3 +1,5 @@
+const uuidv1 = require('uuid/v1');
+
 export const GetCategories = () => fetch(
     "http://localhost:3001/categories",
     { headers: { 'Authorization': 'test' }}
@@ -29,6 +31,22 @@ export const GetCategories = () => fetch(
       {
         headers: { 'Authorization': 'test', 'Content-Type': 'application/json' }, method: "PUT",
         body: JSON.stringify({title: title, body: body})
+      }
+    )
+  }
+
+  export const createPost = (title, author, body, category) => {
+    return fetch(
+      `http://localhost:3001/posts`,
+      {
+        headers: { 'Authorization': 'test', 'Content-Type': 'application/json' }, method: "POST",
+        body: JSON.stringify({
+          id: uuidv1(),
+          title: title,
+          author: author,
+          category: category,
+          timestamp: Date.now(),
+          body: body})
       }
     )
   }

@@ -19,7 +19,6 @@ const store = createStore(
 )
 
 store.dispatch(action.loadCategories())
-store.dispatch(action.loadPosts())
 
 ReactDOM.render(
 <Provider store={store}>
