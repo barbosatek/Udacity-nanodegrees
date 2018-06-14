@@ -4,12 +4,16 @@ import {
     UPDATE_POST
   } from './types'
 
-  export const updatePostVote = (post, option) => {
-    Api.updatePostVote(post.id, option)
-  
-    return {
-      type: UPDATE_POST,
-      post
+  export const updatePostVote = (id, option) => {
+    return function(dispatch){
+      return Api.updatePostVote(id, option)
+      .then((res) => {return(res.json())})
+      .then((data) => {
+        return dispatch({
+          type: UPDATE_POST,
+          post: data
+        });
+      });
     }
   }
   

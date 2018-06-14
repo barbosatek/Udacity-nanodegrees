@@ -9,13 +9,18 @@ class Post extends Component {
     }
 
     componentWillMount() {
-        this.props.dispatch(action.loadPostComments(this.props.post.id));
-        this.setState({post: this.props.post});
+        this.props.loadComments(this.props.post.id)
     }
 
-    voteUp = (post) => {
-        post.voteScore += 1;
-        this.props.dispatch(action.updatePostVote(post, "upVote"))
+    vote(option){
+        this.props.vote({
+            id: this.state.post.id,
+            option
+        }).then(() => {
+            this.setState((state, props) => {
+                return {post: this.props.store.posts[this.state.post.id]};
+            })
+        })
     }
 
   render() {
@@ -29,10 +34,10 @@ class Post extends Component {
                 <h5 className="mb-1">{this.state.post.title}</h5>
                 <small>
                     <div className="btn-group-sm" role="group" aria-label="Basic example">
-                        <button type="button" className="btn btn-light btn-sm" onClick={(e) => this.voteUp(this.state.post, {option: "upVote"})}>
+                        <button type="button" className="btn btn-light btn-sm" onClick={(e) => this.vote("upVote")}>
                             <span className="oi oi-thumb-up"></span>
                         </button>
-                        <button type="button" className="btn btn-light btn-sm">
+                        <button type="button" className="btn btn-light btn-sm" onClick={(e) => this.vote("downVote")}>
                             <span className="oi oi-thumb-down"></span>
                         </button>
                     </div>
@@ -84,12 +89,19 @@ class Post extends Component {
   }
 }
 
+function mapDispatchToProps (dispatch) {
+    return {
+        vote: (data) => dispatch(action.updatePostVote(data.id, data.option)),
+        loadComments: (data) => dispatch(action.loadPostComments(data)),
+    }
+  }
+
 function mapStateToProps(store) {
   return {
       store: {
-        comments: store.comments
+        ...store
       }
     }
 }
 
-export default connect(mapStateToProps)(Post);
+export default connect(mapStateToProps, mapDispatchToProps)(Post);

@@ -22,9 +22,10 @@ class Posts extends Component {
 function mapStateToProps(store) {
   return {
       store: {
-          posts: store.posts
+        ...store
       }
     }
 }
+
 
 export default connect(mapStateToProps)(Posts);
