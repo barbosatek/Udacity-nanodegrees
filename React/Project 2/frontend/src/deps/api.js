@@ -22,3 +22,13 @@ export const GetCategories = () => fetch(
       }
     )
   }
+
+  export const updatePost = (id, title, body) => {
+    return fetch(
+      `http://localhost:3001/posts/${id}`,
+      {
+        headers: { 'Authorization': 'test', 'Content-Type': 'application/json' }, method: "PUT",
+        body: JSON.stringify({title: title, body: body})
+      }
+    )
+  }

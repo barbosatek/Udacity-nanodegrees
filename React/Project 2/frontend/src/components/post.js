@@ -16,11 +16,11 @@ class Post extends Component {
         this.props.vote({
             id: this.state.post.id,
             option
-        }).then(() => {
-            this.setState((state, props) => {
-                return {post: this.props.store.posts[this.state.post.id]};
-            })
         })
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.state.post = nextProps.post;
     }
 
   render() {
@@ -55,7 +55,7 @@ class Post extends Component {
                 <p className="mb-1">{this.state.post.body}</p>
                 <small>
                 <div className="btn-group-sm" role="group" aria-label="Basic example">
-                        <button type="button" className="btn btn-link">
+                        <button type="button" className="btn btn-link" data-toggle="modal" data-target={`#modal-${this.state.post.id}`}>
                             <span className="oi oi-pencil"></span>
                         </button>
                         <button type="button" className="btn btn-link">
