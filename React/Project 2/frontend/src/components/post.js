@@ -19,6 +19,10 @@ class Post extends Component {
         })
     }
 
+    deletePost(){
+        this.props.deletePost(this.state.post.id)
+    }
+
     componentWillReceiveProps(nextProps) {
         this.state.post = nextProps.post;
     }
@@ -59,7 +63,7 @@ class Post extends Component {
                             <span className="oi oi-pencil"></span>
                         </button>
                         <button type="button" className="btn btn-link">
-                            <span className="oi oi-trash"></span>
+                            <span className="oi oi-trash" onClick={() => this.deletePost()}></span>
                         </button>
                     </div>
                 </small>
@@ -93,6 +97,7 @@ function mapDispatchToProps (dispatch) {
     return {
         vote: (data) => dispatch(action.updatePostVote(data.id, data.option)),
         loadComments: (data) => dispatch(action.loadPostComments(data)),
+        deletePost: (data) => dispatch(action.deletePost(data)),
     }
   }
 

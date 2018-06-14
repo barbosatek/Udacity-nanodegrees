@@ -1,6 +1,7 @@
 import {
     LOAD_ALL_POSTS,
     CREATE_POST,
+    DELETE_POST,
     UPDATE_POST
   } from '../actions/types'
 
@@ -20,6 +21,11 @@ import {
         return {
           ...state,
           [action.post.id]: action.post
+        }
+      case DELETE_POST:
+        delete state[action.post.id]
+        return {
+          ...state
         }
       default:
         return state

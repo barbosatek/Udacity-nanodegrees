@@ -25,6 +25,15 @@ export const GetCategories = () => fetch(
     )
   }
 
+  export const deletePost = (id) => {
+    return fetch(
+      `http://localhost:3001/posts/${id}`,
+      {
+        headers: { 'Authorization': 'test', 'Content-Type': 'application/json' }, method: "DELETE"
+      }
+    )
+  }
+
   export const updatePost = (id, title, body) => {
     return fetch(
       `http://localhost:3001/posts/${id}`,

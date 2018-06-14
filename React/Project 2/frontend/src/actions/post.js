@@ -3,6 +3,7 @@ import {
     LOAD_POST_COMTS,
     LOAD_ALL_POSTS,
     CREATE_POST,
+    DELETE_POST,
     UPDATE_POST
   } from './types'
 
@@ -39,6 +40,19 @@ import {
       .then((data) => {
         return dispatch({
           type: UPDATE_POST,
+          post: data
+        });
+      });
+    }
+  }
+
+  export const deletePost = (id) => {
+    return function(dispatch){
+      return Api.deletePost(id)
+      .then((res) => {return(res.json())})
+      .then((data) => {
+        return dispatch({
+          type: DELETE_POST,
           post: data
         });
       });
