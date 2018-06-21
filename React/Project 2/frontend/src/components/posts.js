@@ -21,8 +21,20 @@ class Posts extends Component {
     this.handleAuthorChange = this.handleAuthorChange.bind(this);
     this.handleBodyChange = this.handleBodyChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleEditPost = this.handleEditPost.bind(this);
     this.props.loadPosts()
   }
+
+  handleEditPost(post) {
+    var id = post.id;
+    return this.props.updatePost({
+        id: post.id,
+        title: post.title,
+        body: post.body
+    }).then(() => {
+      return this.props.store.posts[id]
+    })
+}
 
   handleAuthorChange(value) {
     this.setState(prevState => ({
@@ -86,7 +98,11 @@ class Posts extends Component {
           return !this.state.posts[key].deleted &&
             <div key={this.state.posts[key].id}>
               <Post post={this.state.posts[key]}></Post>
-              <PostModal post={this.state.posts[key]} title={'Edit Post'} editableFields={['title', 'body']}></PostModal>
+              <PostModal
+                post={this.state.posts[key]}
+                title={'Edit Post'} 
+                editableFields={['title', 'body']}
+                onSubmit={(p) => this.handleEditPost(p)}></PostModal>
             </div>
         }
         )}
@@ -118,7 +134,8 @@ class Posts extends Component {
 function mapDispatchToProps(dispatch) {
   return {
     loadPosts: (data) => dispatch(action.loadPosts()),
-    createPost: (data) => dispatch(action.createPost(data.title, data.author, data.body, data.category))
+    createPost: (data) => dispatch(action.createPost(data.title, data.author, data.body, data.category)),
+    updatePost: (data) => dispatch(action.updatePost(data.id, data.title, data.body))
   }
 }
 

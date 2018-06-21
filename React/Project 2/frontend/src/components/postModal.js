@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import * as action from '../actions/post'
 
 class PostModal extends Component {
     constructor(props) {
@@ -30,15 +29,10 @@ class PostModal extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-
-        //this.onSubmit(event);
-        this.props.update({
-            id: this.state.post.id,
-            title: this.state.post.title,
-            body: this.state.post.body
-        }).then(() => {
+        this.props.onSubmit(this.state.post)
+        .then((updatedPost) => {
             this.setState((state, props) => {
-                return {post: this.props.store.posts[this.state.post.id]};
+                return {post: updatedPost};
             })
         })
     }
@@ -84,7 +78,6 @@ class PostModal extends Component {
 
 function mapDispatchToProps (dispatch) {
     return {
-        update: (data) => dispatch(action.updatePost(data.id, data.title, data.body))
     }
   }
 
