@@ -24,29 +24,38 @@ class Posts extends Component {
     this.props.loadPosts()
   }
 
-  handleAuthorChange(event) {
-    var value = event.target.value;
-    this.setState(state => {
-      state.postForm.author = value
-    });
+  handleAuthorChange(value) {
+    this.setState(prevState => ({
+      postForm: {
+        ...prevState.postForm,
+        author: value
+      }
+    }));
   }
 
-  handleBodyChange(event) {
-    var value = event.target.value;
-    this.setState(state => {
-      state.postForm.body = value
-    });
+  handleBodyChange(value) {
+    this.setState(prevState => ({
+      postForm: {
+        ...prevState.postForm,
+        body: value
+      }
+    }));
   }
 
-  handleTitleChange(event) {
-    var value = event.target.value;
-    this.setState(state => {
-      state.postForm.title = value
-    });
+  handleTitleChange(value) {
+    this.setState(prevState => ({
+      postForm: {
+        ...prevState.postForm,
+        title: value
+      }
+    }));
   }
 
   componentWillReceiveProps(nextProps) {
-    this.state.posts = nextProps.store.posts;
+    var posts = nextProps.store.posts
+    this.setState(state => {
+      state.posts = posts;
+    })
   }
 
   handleSubmit(event) {
@@ -58,24 +67,26 @@ class Posts extends Component {
         body: this.state.postForm.body,
         category: this.state.category
     }).then(() => {
-        this.setState(state => {
-          state.postForm.title = ''
-          state.postForm.author = ''
-          state.postForm.body = ''
-        })
+      this.setState(
+        {
+          postForm: {
+            body: '',
+            title: '',
+            author: ''
+          }
+        }
+      );
     })
 }
 
   render() {
-    const { store } = this.props;
-
     return (
       <div className="list-group">
         {this.state.posts && Object.keys(this.state.posts).map((key, index) => {
           return !this.state.posts[key].deleted &&
-            <div>
-              <Post post={this.state.posts[key]} key={this.state.posts[key].id}></Post>
-              <PostModal post={this.state.posts[key]} key={this.state.posts[key].id}></PostModal>
+            <div key={this.state.posts[key].id}>
+              <Post post={this.state.posts[key]}></Post>
+              <PostModal post={this.state.posts[key]}></PostModal>
             </div>
         }
         )}
@@ -84,18 +95,18 @@ class Posts extends Component {
             <h5 className="mb-1">New Post</h5>
             <form>
               <div className="form-group">
-                <label for="exampleFormControlInput1">Title</label>
-                <input onChange={this.handleTitleChange} type="text" className="form-control" id="exampleFormControlInput1" placeholder="Title" />
+                <label htmlFor="exampleFormControlInput1">Title</label>
+                <input value={this.state.postForm.title} onChange={(e) => this.handleTitleChange(e.target.value)} type="text" className="form-control" id="exampleFormControlInput1" placeholder="Title" />
               </div>
               <div className="form-group">
-                <label for="exampleFormControlInput2">Author</label>
-                <input onChange={this.handleAuthorChange} type="text" className="form-control" id="exampleFormControlInput2" placeholder="Author" />
+                <label htmlFor="exampleFormControlInput2">Author</label>
+                <input value={this.state.postForm.author} onChange={(e) => this.handleAuthorChange(e.target.value)} type="text" className="form-control" id="exampleFormControlInput2" placeholder="Author" />
               </div>
               <div className="form-group">
-                <label for="exampleFormControlTextarea1">Post</label>
-                <textarea onChange={this.handleBodyChange} className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <label htmlFor="exampleFormControlTextarea1">Post</label>
+                <textarea value={this.state.postForm.body} onChange={(e) => this.handleBodyChange(e.target.value)} className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
               </div>
-              <button onClick={this.handleSubmit} type="submit" class="btn btn-primary">Save</button>
+              <button onClick={(e) => this.handleSubmit(e)} type="submit" className="btn btn-primary">Save</button>
             </form>
           </div>
         </a>

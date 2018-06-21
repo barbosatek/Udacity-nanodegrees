@@ -14,14 +14,22 @@ class PostModal extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleTitleChange(event) {
-        this.state.post.title = event.target.value;
-        this.setState({ post: this.state.post });
+    handleTitleChange(value) {
+        this.setState(prevState => ({
+            post: {
+                ...prevState.post,
+                title: value
+            }
+        }));
     }
 
-    handleBodyChange(event) {
-        this.state.post.body = event.target.value;
-        this.setState({ post: this.state.post });
+    handleBodyChange(value) {
+        this.setState(prevState => ({
+            post: {
+                ...prevState.post,
+                body: value
+            }
+        }));
     }
 
     handleSubmit(event) {
@@ -39,8 +47,6 @@ class PostModal extends Component {
     }
     
   render() {
-    const { store } = this.props;
-
     return (
         <div className="modal fade" id={`modal-${this.state.post.id}`} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
@@ -56,13 +62,13 @@ class PostModal extends Component {
                         </div>
                         <div className="modal-body">
                             <div className="form-group">
-                                <label for="exampleFormControlInput1">Title</label>
-                                <input onChange={this.handleTitleChange} type="test" className="form-control" id="exampleFormControlInput1" value={this.state.post.title} />
+                                <label htmlFor="exampleFormControlInput1">Title</label>
+                                <input onChange={(e) => {this.handleTitleChange(e.target.value)}} type="test" className="form-control" id="exampleFormControlInput1" value={this.state.post.title} />
                             </div>
                             <div className="form-group">
-                                <label for="exampleFormControlSelect1">Body</label>
-                                <textarea onChange={this.handleBodyChange} className="form-control" id="exampleFormControlTextarea1" rows="3">
-                                    {this.state.post.body}
+                                <label htmlFor="exampleFormControlSelect1">Body</label>
+                                <textarea value={this.state.post.body} onChange={(e) => this.handleBodyChange(e.target.value)} className="form-control" id="exampleFormControlTextarea1" rows="3">
+                                    
                                 </textarea>
                             </div>
                         </div>

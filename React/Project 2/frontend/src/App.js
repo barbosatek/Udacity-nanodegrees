@@ -5,8 +5,6 @@ import { connect } from 'react-redux'
 
 class App extends Component {
   render() {
-    const { store } = this.props;
-
     return (
       <div className="container">
         <div className="row">

@@ -16,7 +16,6 @@ import {
           ...state,
           [action.post.id]: action.post
         }
-        return mapArrayToObject(action.posts, 'id')
       case CREATE_POST:
         return {
           ...state,

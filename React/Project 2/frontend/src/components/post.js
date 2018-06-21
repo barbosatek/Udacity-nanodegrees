@@ -24,7 +24,10 @@ class Post extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        this.state.post = nextProps.post;
+        var post = nextProps.post;
+        this.setState(state => {
+            state.post = post;
+        })
     }
 
   render() {
