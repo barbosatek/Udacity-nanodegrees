@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
-class PostModal extends Component {
+class FormModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            post: this.props.post,
+            form: this.props.form,
             onSubmit: this.props.onSubmit,
             editableFields: this.props.editableFields
         }
@@ -16,8 +16,8 @@ class PostModal extends Component {
 
     handlePropertyChange(value, propertyName) {
         this.setState(prevState => ({
-            post: {
-                ...prevState.post,
+            form: {
+                ...prevState.form,
                 [propertyName]: value
             }
         }));
@@ -29,17 +29,17 @@ class PostModal extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.props.onSubmit(this.state.post)
-        .then((updatedPost) => {
+        this.props.onSubmit(this.state.form)
+        .then((updatedForm) => {
             this.setState((state, props) => {
-                return {post: updatedPost};
+                return {form: updatedForm};
             })
         })
     }
     
   render() {
     return (
-        <div className="modal fade" id={`modal-${this.state.post.id}`} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal fade" id={`modal-${this.state.form.id}`} tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
                     <form onSubmit={this.handleSubmit}>
@@ -52,14 +52,14 @@ class PostModal extends Component {
                             </button>
                         </div>
                         <div className="modal-body">
-                            {Object.keys(this.state.post).map((key, index) =>
+                            {Object.keys(this.state.form).map((key, index) =>
                                 {
                                     return this.state.editableFields.includes(key) && <div className="form-group" key={key}>
                                             <label htmlFor={`${key}`}>{this.capitalize(key)}</label>
                                             <input onChange={(e) => { this.handlePropertyChange(e.target.value, key) }}
                                                 type="test" className="form-control"
                                                 id={`${key}`}
-                                                value={this.state.post[key]} />
+                                                value={this.state.form[key]} />
                                         </div>
                                 }
                             )}
@@ -89,4 +89,4 @@ function mapStateToProps(store) {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostModal);
+export default connect(mapStateToProps, mapDispatchToProps)(FormModal);

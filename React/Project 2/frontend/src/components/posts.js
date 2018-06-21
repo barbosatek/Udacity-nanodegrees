@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import Post from './post'
-import PostModal from './postModal'
+import FormModal from './formModal'
 import * as action from '../actions/post'
 
 class Posts extends Component {
@@ -98,11 +98,11 @@ class Posts extends Component {
           return !this.state.posts[key].deleted &&
             <div key={this.state.posts[key].id}>
               <Post post={this.state.posts[key]}></Post>
-              <PostModal
-                post={this.state.posts[key]}
+              <FormModal
+                form={this.state.posts[key]}
                 title={'Edit Post'} 
                 editableFields={['title', 'body']}
-                onSubmit={(p) => this.handleEditPost(p)}></PostModal>
+                onSubmit={(p) => this.handleEditPost(p)}></FormModal>
             </div>
         }
         )}
