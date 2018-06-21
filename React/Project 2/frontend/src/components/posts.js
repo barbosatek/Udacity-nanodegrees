@@ -86,7 +86,7 @@ class Posts extends Component {
           return !this.state.posts[key].deleted &&
             <div key={this.state.posts[key].id}>
               <Post post={this.state.posts[key]}></Post>
-              <PostModal post={this.state.posts[key]}></PostModal>
+              <PostModal post={this.state.posts[key]} title={'Edit Post'} editableFields={['title', 'body']}></PostModal>
             </div>
         }
         )}

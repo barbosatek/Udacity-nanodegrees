@@ -6,35 +6,32 @@ class PostModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            post: this.props.post
+            post: this.props.post,
+            onSubmit: this.props.onSubmit,
+            editableFields: this.props.editableFields
         }
 
-        this.handleTitleChange = this.handleTitleChange.bind(this);
-        this.handleBodyChange = this.handleBodyChange.bind(this);
+        this.handlePropertyChange = this.handlePropertyChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleTitleChange(value) {
+    handlePropertyChange(value, propertyName) {
         this.setState(prevState => ({
             post: {
                 ...prevState.post,
-                title: value
+                [propertyName]: value
             }
         }));
     }
 
-    handleBodyChange(value) {
-        this.setState(prevState => ({
-            post: {
-                ...prevState.post,
-                body: value
-            }
-        }));
+    capitalize(str) {
+        return str.charAt(0).toUpperCase() + str.slice(1);
     }
 
     handleSubmit(event) {
         event.preventDefault();
 
+        //this.onSubmit(event);
         this.props.update({
             id: this.state.post.id,
             title: this.state.post.title,
@@ -54,23 +51,24 @@ class PostModal extends Component {
                     <form onSubmit={this.handleSubmit}>
                         <div className="modal-header">
                             <h5 className="modal-title" id="exampleModalLabel">
-                                Edit Post
+                                {this.props.title}
                         </h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div className="modal-body">
-                            <div className="form-group">
-                                <label htmlFor="exampleFormControlInput1">Title</label>
-                                <input onChange={(e) => {this.handleTitleChange(e.target.value)}} type="test" className="form-control" id="exampleFormControlInput1" value={this.state.post.title} />
-                            </div>
-                            <div className="form-group">
-                                <label htmlFor="exampleFormControlSelect1">Body</label>
-                                <textarea value={this.state.post.body} onChange={(e) => this.handleBodyChange(e.target.value)} className="form-control" id="exampleFormControlTextarea1" rows="3">
-                                    
-                                </textarea>
-                            </div>
+                            {Object.keys(this.state.post).map((key, index) =>
+                                {
+                                    return this.state.editableFields.includes(key) && <div className="form-group" key={key}>
+                                            <label htmlFor={`${key}`}>{this.capitalize(key)}</label>
+                                            <input onChange={(e) => { this.handlePropertyChange(e.target.value, key) }}
+                                                type="test" className="form-control"
+                                                id={`${key}`}
+                                                value={this.state.post[key]} />
+                                        </div>
+                                }
+                            )}
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
