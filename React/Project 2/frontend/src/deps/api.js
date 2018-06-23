@@ -59,3 +59,15 @@ export const GetCategories = () => fetch(
       }
     )
   }
+
+  export const updateComment = (id, body) => {
+    return fetch(
+      `http://localhost:3001/comments/${id}`,
+      {
+        headers: { 'Authorization': 'test', 'Content-Type': 'application/json' }, method: "PUT",
+        body: JSON.stringify({
+          timestamp: Date.now(),
+          body: body})
+      }
+    )
+  }

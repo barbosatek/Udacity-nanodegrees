@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import FormModal from './formModal'
 import * as action from '../actions/post'
+import * as commentsActions from '../actions/comments'
 
 class Post extends Component {
-    state = {
-        post: this.props.post,
-        comments: []
-    }
+    constructor(props) {
+        super(props);
+        this.state = {
+            post: this.props.post,
+            comments: []
+        }
+    
+        this.handleEditComment = this.handleEditComment.bind(this);
+      }
 
     componentWillMount() {
         this.props.loadComments(this.props.post.id)
@@ -17,6 +23,16 @@ class Post extends Component {
         this.props.vote({
             id: this.state.post.id,
             option
+        })
+    }
+
+    handleEditComment(comment){
+        var id = comment.id;
+        return this.props.updateComment({
+            id: comment.id,
+            body: comment.body
+        }).then(() => {
+          return this.props.store.comments[id]
         })
     }
 
@@ -36,7 +52,7 @@ class Post extends Component {
 
     return (
         <div className="card">
-            <div class="card-header d-flex w-100 justify-content-between">
+            <div className="card-header d-flex w-100 justify-content-between">
                 <h5>{this.state.post.title} <button type="button" className="btn btn-link btn-sm" onClick={(e) => this.vote("upVote")}>
                     <span className="oi oi-thumb-up"></span>
                 </button>
@@ -55,9 +71,9 @@ class Post extends Component {
                     </div>
                 </small>
             </div>
-            <div class="card-body">
-                <blockquote class="blockquote mb-0">
-                    <header class="blockquote-footer">By <cite title="Source Title">{this.state.post.author}, {this.state.post.voteScore} votes.</cite></header>
+            <div className="card-body">
+                <blockquote className="blockquote mb-0">
+                    <header className="blockquote-footer">By <cite title="Source Title">{this.state.post.author}, {this.state.post.voteScore} votes.</cite></header>
                     <p>{this.state.post.body}</p>
                 </blockquote>
                 <button className="btn btn-link" type="button" data-toggle="collapse" data-target={`#${this.state.post.id}`} aria-expanded="false" aria-controls="collapseExample">
@@ -86,7 +102,7 @@ class Post extends Component {
                             form={store.comments[key]}
                             title={'Edit Comment'}
                             editableFields={['body']}
-                            onSubmit={(p) => {}}></FormModal>
+                            onSubmit={(c) => { return this.handleEditComment(c)}}></FormModal>
                         </div>
                 }
             )}
@@ -101,6 +117,7 @@ function mapDispatchToProps (dispatch) {
         vote: (data) => dispatch(action.updatePostVote(data.id, data.option)),
         loadComments: (data) => dispatch(action.loadPostComments(data)),
         deletePost: (data) => dispatch(action.deletePost(data)),
+        updateComment: (data) => dispatch(commentsActions.updateComment(data.id, data.body))
     }
   }
 

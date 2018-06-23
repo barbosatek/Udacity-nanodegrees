@@ -110,7 +110,7 @@ class Posts extends Component {
           <div className="w-100 justify-content-between">
           <div className="card-header">
             <h5 className="mb-1">New Post</h5></div>
-            <div class="card-body">
+            <div className="card-body">
             <form>
               <div className="form-group">
                 <label htmlFor="exampleFormControlInput1">Title</label>
