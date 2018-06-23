@@ -40,6 +40,10 @@ class Post extends Component {
         this.props.deletePost(this.state.post.id)
     }
 
+    deleteComment(id){
+        this.props.deleteComment(id)
+    }
+
     componentWillReceiveProps(nextProps) {
         var post = nextProps.post;
         this.setState(state => {
@@ -90,11 +94,20 @@ class Post extends Component {
                                 <p className="mb-1">{store.comments[key].body}</p>
                                 <small>
                                     <div className="btn-group-sm" role="group" aria-label="Basic example">
-                                        <button type="button" className="btn btn-link"
-                                            data-toggle="modal"
-                                            data-target={`#modal-${store.comments[key].id}`}>
-                                            <span className="oi oi-pencil"></span>
-                                        </button>
+                                    <button type="button" className="btn btn-link btn-sm" onClick={(e) => {}}>
+                                        <span className="oi oi-thumb-up"></span>
+                                    </button>
+                                    <button type="button" className="btn btn-link btn-sm" onClick={(e) => {}}>
+                                        <span className="oi oi-thumb-down"></span>
+                                    </button>
+                                    <button type="button" className="btn btn-link"
+                                        data-toggle="modal"
+                                        data-target={`#modal-${store.comments[key].id}`}>
+                                        <span className="oi oi-pencil"></span>
+                                    </button>
+                                    <button type="button" className="btn btn-link">
+                                        <span className="oi oi-trash" onClick={() => this.deleteComment(key)}></span>
+                                    </button>
                                     </div>
                                 </small>
                             </div>
@@ -117,6 +130,7 @@ function mapDispatchToProps (dispatch) {
         vote: (data) => dispatch(action.updatePostVote(data.id, data.option)),
         loadComments: (data) => dispatch(action.loadPostComments(data)),
         deletePost: (data) => dispatch(action.deletePost(data)),
+        deleteComment: (data) => dispatch(commentsActions.deleteComment(data)),
         updateComment: (data) => dispatch(commentsActions.updateComment(data.id, data.body))
     }
   }

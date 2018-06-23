@@ -71,3 +71,14 @@ export const GetCategories = () => fetch(
       }
     )
   }
+
+  export const deleteComment = (id) => {
+    return fetch(
+      `http://localhost:3001/comments/${id}`,
+      {
+        headers: { 'Authorization': 'test', 'Content-Type': 'application/json' },
+        method: "DELETE"
+      }
+    )
+  }
+  

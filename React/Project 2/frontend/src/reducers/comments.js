@@ -1,6 +1,7 @@
 import {
     LOAD_POST_COMTS,
     UPDATE_COMMENT,
+    DELETE_COMMENT,
   } from '../actions/types'
 
   import {mapArrayToObject} from '../deps/util'
@@ -14,6 +15,11 @@ import {
         return {
           ...state,
           [action.comment.id]: action.comment
+        }
+      case DELETE_COMMENT:
+        delete state[action.comment.id]
+        return {
+          ...state
         }
       default:
         return state
