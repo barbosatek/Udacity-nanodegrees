@@ -93,7 +93,7 @@ class Posts extends Component {
 
   render() {
     return (
-      <div className="list-group">
+      <div className="">
         {this.state.posts && Object.keys(this.state.posts).map((key, index) => {
           return !this.state.posts[key].deleted &&
             <div key={this.state.posts[key].id}>
@@ -106,9 +106,11 @@ class Posts extends Component {
             </div>
         }
         )}
-        <a href="#new-post" className="list-group-item list-group-item-action flex-column align-items-start">
+        <div className="card">
           <div className="w-100 justify-content-between">
-            <h5 className="mb-1">New Post</h5>
+          <div className="card-header">
+            <h5 className="mb-1">New Post</h5></div>
+            <div class="card-body">
             <form>
               <div className="form-group">
                 <label htmlFor="exampleFormControlInput1">Title</label>
@@ -124,8 +126,8 @@ class Posts extends Component {
               </div>
               <button onClick={(e) => this.handleSubmit(e)} type="submit" className="btn btn-primary">Save</button>
             </form>
+            </div></div>
           </div>
-        </a>
       </div>
     );
   }
