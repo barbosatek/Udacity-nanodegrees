@@ -83,7 +83,18 @@ class Post extends Component {
                 <button className="btn btn-link" type="button" data-toggle="collapse" data-target={`#${this.state.post.id}`} aria-expanded="false" aria-controls="collapseExample">
                     Comments
                     </button>
+                    <button type="button" className="btn btn-link" data-toggle="modal"
+                                        data-target={`#modal-${this.state.post.id}-new-comment`}>
+                            <span className="oi oi-plus" onClick={() => {}}></span>
+                        </button>
+                    
             </div>
+
+            <FormModal
+                form={{id: `${this.state.post.id}-new-comment`, body: '', author: '', parentId: this.state.post.id }}
+                title={'New Comment'}
+                editableFields={['body', 'author']}
+                onSubmit={(c) => this.props.createComment(c)}></FormModal>
 
             <div className="collapse" id={`${this.state.post.id}`}>
             {Object.keys(store.comments).map((key, index) =>
@@ -131,6 +142,7 @@ function mapDispatchToProps (dispatch) {
         loadComments: (data) => dispatch(action.loadPostComments(data)),
         deletePost: (data) => dispatch(action.deletePost(data)),
         deleteComment: (data) => dispatch(commentsActions.deleteComment(data)),
+        createComment: (data) => dispatch(commentsActions.createComment(data.author, data.body, data.parentId)),
         updateComment: (data) => dispatch(commentsActions.updateComment(data.id, data.body))
     }
   }

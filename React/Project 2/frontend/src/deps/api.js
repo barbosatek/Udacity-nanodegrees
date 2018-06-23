@@ -82,3 +82,17 @@ export const GetCategories = () => fetch(
     )
   }
   
+  export const createComment = (author, body, parentId) => {
+    return fetch(
+      "http://localhost:3001/comments",
+      {
+        headers: { 'Authorization': 'test', 'Content-Type': 'application/json' }, method: "POST",
+        body: JSON.stringify({
+          id: uuidv1(),
+          author: author,
+          parentId: parentId,
+          timestamp: Date.now(),
+          body: body})
+      }
+    )
+  }

@@ -1,6 +1,7 @@
 import {
     LOAD_POST_COMTS,
     UPDATE_COMMENT,
+    CREATE_COMMENT,
     DELETE_COMMENT,
   } from '../actions/types'
 
@@ -12,6 +13,11 @@ import {
         return {...state,
         ...mapArrayToObject(action.comments, 'id')}
       case UPDATE_COMMENT:
+        return {
+          ...state,
+          [action.comment.id]: action.comment
+        }
+      case CREATE_COMMENT:
         return {
           ...state,
           [action.comment.id]: action.comment
