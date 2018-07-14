@@ -3,13 +3,17 @@ import { connect } from 'react-redux'
 import Post from './post'
 import FormModal from './formModal'
 import * as action from '../actions/post'
+import { Link } from 'react-router-dom'
+import { Route } from 'react-router-dom'
+import {mapArrayToObject} from '../deps/util'
+import {mapObjectToArray} from '../deps/util'
 
 class Posts extends Component {
   constructor(props) {
     super(props);
     this.state = {
       posts: [],
-      category: props.category,
+      category: props.match.params.category,
       postForm: {
         title: '',
         author: '',
@@ -64,7 +68,8 @@ class Posts extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    var posts = nextProps.store.posts
+    var allPosts = mapObjectToArray(nextProps.store.posts)
+    var posts = this.state.category ? allPosts.filter(x => x.category === this.state.category) : allPosts
     this.setState(state => {
       state.posts = posts;
     })
@@ -106,28 +111,30 @@ class Posts extends Component {
             </div>
         }
         )}
-        <div className="card">
+
+        {this.state.category && <div className="card">
           <div className="w-100 justify-content-between">
-          <div className="card-header">
-            <h5 className="mb-1">New Post</h5></div>
+            <div className="card-header">
+              <h5 className="mb-1">New Post</h5></div>
             <div className="card-body">
-            <form>
-              <div className="form-group">
-                <label htmlFor="exampleFormControlInput1">Title</label>
-                <input value={this.state.postForm.title} onChange={(e) => this.handleTitleChange(e.target.value)} type="text" className="form-control" id="exampleFormControlInput1" placeholder="Title" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="exampleFormControlInput2">Author</label>
-                <input value={this.state.postForm.author} onChange={(e) => this.handleAuthorChange(e.target.value)} type="text" className="form-control" id="exampleFormControlInput2" placeholder="Author" />
-              </div>
-              <div className="form-group">
-                <label htmlFor="exampleFormControlTextarea1">Post</label>
-                <textarea value={this.state.postForm.body} onChange={(e) => this.handleBodyChange(e.target.value)} className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-              </div>
-              <button onClick={(e) => this.handleSubmit(e)} type="submit" className="btn btn-primary">Save</button>
-            </form>
+              <form>
+                <div className="form-group">
+                  <label htmlFor="exampleFormControlInput1">Title</label>
+                  <input value={this.state.postForm.title} onChange={(e) => this.handleTitleChange(e.target.value)} type="text" className="form-control" id="exampleFormControlInput1" placeholder="Title" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleFormControlInput2">Author</label>
+                  <input value={this.state.postForm.author} onChange={(e) => this.handleAuthorChange(e.target.value)} type="text" className="form-control" id="exampleFormControlInput2" placeholder="Author" />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="exampleFormControlTextarea1">Post</label>
+                  <textarea value={this.state.postForm.body} onChange={(e) => this.handleBodyChange(e.target.value)} className="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <button onClick={(e) => this.handleSubmit(e)} type="submit" className="btn btn-primary">Save</button>
+              </form>
             </div></div>
-          </div>
+        </div>}
+        
       </div>
     );
   }

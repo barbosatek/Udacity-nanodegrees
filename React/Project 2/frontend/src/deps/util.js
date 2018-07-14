@@ -11,3 +11,15 @@ export const mapArrayToObject = (arr, key) => {
 
     return obj;
 }
+
+export const mapObjectToArray = (obj) => {
+    var keys = Object.keys(obj);
+    var arr = [];
+    var i = 0
+
+    for (i = 0; i < keys.length; i++) { 
+        arr[i] = obj[keys[i]]
+    }
+
+    return arr;
+}
